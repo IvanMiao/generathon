@@ -1,0 +1,14 @@
+{
+  "fixture_schema_version": "1.0.0",
+  "fixture_id": "invalid-locked-film-bible-mutation",
+  "description": "Attempts to patch a locked Film Bible invariant.",
+  "base_fixture": "fixtures/projects/impossible-city-demo.v1.json",
+  "validator": "revision",
+  "revision_record_type": "film_bible",
+  "record_id": "bible-recursive-city-v1",
+  "explicitly_reopened": false,
+  "mutations": [
+    { "op": "replace", "path": "/film_bibles/0/invariants/0", "value": "The oval aperture may change proportions on every recurrence." }
+  ],
+  "expected_issue_codes": ["locked_record_mutation"]
+}

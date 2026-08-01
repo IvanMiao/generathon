@@ -1,0 +1,14 @@
+{
+  "fixture_schema_version": "1.0.0",
+  "fixture_id": "invalid-visual-score-overlap",
+  "description": "Moves a Visual Score segment before the prior segment has ended.",
+  "base_fixture": "fixtures/projects/impossible-city-demo.v1.json",
+  "validator": "project",
+  "revision_record_type": null,
+  "record_id": null,
+  "explicitly_reopened": false,
+  "mutations": [
+    { "op": "replace", "path": "/visual_score_segments/2/range/start_seconds", "value": 20 }
+  ],
+  "expected_issue_codes": ["visual_score_overlap"]
+}

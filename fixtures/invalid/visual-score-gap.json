@@ -1,0 +1,14 @@
+{
+  "fixture_schema_version": "1.0.0",
+  "fixture_id": "invalid-visual-score-gap",
+  "description": "Creates a one-second gap between adjacent Visual Score segments.",
+  "base_fixture": "fixtures/projects/impossible-city-demo.v1.json",
+  "validator": "project",
+  "revision_record_type": null,
+  "record_id": null,
+  "explicitly_reopened": false,
+  "mutations": [
+    { "op": "replace", "path": "/visual_score_segments/2/range/start_seconds", "value": 21.5 }
+  ],
+  "expected_issue_codes": ["visual_score_gap"]
+}

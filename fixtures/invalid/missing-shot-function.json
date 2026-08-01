@@ -1,0 +1,14 @@
+{
+  "fixture_schema_version": "1.0.0",
+  "fixture_id": "invalid-missing-shot-function",
+  "description": "Removes the required musical function from a ShotSpec.",
+  "base_fixture": "fixtures/projects/impossible-city-demo.v1.json",
+  "validator": "project",
+  "revision_record_type": null,
+  "record_id": null,
+  "explicitly_reopened": false,
+  "mutations": [
+    { "op": "remove", "path": "/shot_specs/0/musical_function" }
+  ],
+  "expected_issue_codes": ["contract_invalid"]
+}

@@ -11,11 +11,15 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .venv/
+.uv-cache/
 
 # Node
 node_modules/
 dist/
 .vite/
+.next/
+coverage/
+*.tsbuildinfo
 
 # Local application state and generated media
 data/
@@ -24,6 +28,10 @@ uploads/
 exports/
 *.sqlite
 *.sqlite3
+
+# Local hackathon inputs and generated takes
+/Full program PPT GENERATHON1.pdf
+/video-1.mp4
 
 # Editors and operating systems
 .DS_Store
