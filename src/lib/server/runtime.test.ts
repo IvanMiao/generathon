@@ -25,7 +25,7 @@ describe("ensureRuntimeReady", () => {
 
     expect(snapshot.status).toBe("ready");
     expect(snapshot.environment).toBe("test");
-    expect(snapshot.schema_version).toBe(1);
+    expect(snapshot.schema_version).toBe(2);
     expect(existsSync(snapshot.artifactsDir)).toBe(true);
     expect(existsSync(snapshot.uploadsDir)).toBe(true);
     expect(existsSync(snapshot.exportsDir)).toBe(true);
@@ -41,6 +41,7 @@ describe("ensureRuntimeReady", () => {
     expect(tables).toEqual(
       expect.arrayContaining([
         "artifacts",
+        "project_bundles",
         "projects",
         "provider_runs",
         "schema_migrations",
@@ -49,6 +50,6 @@ describe("ensureRuntimeReady", () => {
 
     expect(
       ensureRuntimeReady({ rootDir, environment: { APP_ENV: "test" } }).schema_version,
-    ).toBe(1);
+    ).toBe(2);
   });
 });

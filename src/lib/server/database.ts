@@ -2,7 +2,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 
-export const DATABASE_SCHEMA_VERSION = 1;
+export const DATABASE_SCHEMA_VERSION = 2;
 
 const INITIAL_SCHEMA = `
   CREATE TABLE projects (
@@ -36,10 +36,34 @@ const INITIAL_SCHEMA = `
   ) STRICT;
 `;
 
-function openDatabase(databasePath: string) {
-  return new DatabaseSync(databasePath, {
+const PROJECT_BUNDLE_SCHEMA = `
+  CREATE TABLE project_bundles (
+    project_id TEXT PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
+    contract_version TEXT NOT NULL,
+    revision INTEGER NOT NULL CHECK (revision > 0),
+    document_json TEXT NOT NULL CHECK (json_valid(document_json)),
+    checksum TEXT NOT NULL CHECK (
+      length(checksum) = 64 AND checksum NOT GLOB '*[^0-9a-f]*'
+    ),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  ) STRICT;
+
+  CREATE INDEX project_bundles_updated_at_idx
+    ON project_bundles(updated_at DESC, project_id ASC);
+`;
+
+const MIGRATIONS = [
+  { version: 1, sql: INITIAL_SCHEMA },
+  { version: 2, sql: PROJECT_BUNDLE_SCHEMA },
+] as const;
+
+export function openDatabase(databasePath: string): DatabaseSync {
+  const database = new DatabaseSync(databasePath, {
     timeout: 5_000,
   });
+  database.exec("PRAGMA foreign_keys = ON");
+  return database;
 }
 
 export function initializeDatabase(databasePath: string): number {
@@ -62,11 +86,19 @@ export function initializeDatabase(databasePath: string): number {
         .prepare("SELECT MAX(version) AS version FROM schema_migrations")
         .get() as { version: number | null };
 
-      if ((current.version ?? 0) < DATABASE_SCHEMA_VERSION) {
-        database.exec(INITIAL_SCHEMA);
+      if ((current.version ?? 0) > DATABASE_SCHEMA_VERSION) {
+        throw new Error(
+          `Database schema version ${current.version} is newer than supported version ${DATABASE_SCHEMA_VERSION}.`,
+        );
+      }
+
+      for (const migration of MIGRATIONS) {
+        if (migration.version <= (current.version ?? 0)) continue;
+
+        database.exec(migration.sql);
         database
           .prepare("INSERT INTO schema_migrations (version) VALUES (?)")
-          .run(DATABASE_SCHEMA_VERSION);
+          .run(migration.version);
       }
       database.exec("COMMIT");
     } catch (error) {
