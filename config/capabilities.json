@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-08-01",
+  "status": "blocked_on_credentials",
+  "product_language": "en",
+  "runtime": {
+    "python": {
+      "required": true,
+      "status": "verified",
+      "version": "3.14.3"
+    },
+    "node": {
+      "required": true,
+      "status": "verified",
+      "version": "24.17.0"
+    },
+    "npm": {
+      "required": true,
+      "status": "verified",
+      "version": "11.13.0"
+    },
+    "ffmpeg": {
+      "required": true,
+      "status": "verified",
+      "version": "8.0.1"
+    },
+    "ffprobe": {
+      "required": true,
+      "status": "verified",
+      "version": "8.0.1"
+    }
+  },
+  "gemini": {
+    "status": "blocked",
+    "reason": "GEMINI_API_KEY and GOOGLE_API_KEY are not configured.",
+    "region": "provider_managed",
+    "text_and_video_understanding": {
+      "model": "gemini-3.6-flash",
+      "stability": "stable",
+      "structured_output": true,
+      "input_token_limit": 1048576,
+      "output_token_limit": 65536,
+      "smoke_test": "pending"
+    },
+    "image_generation": {
+      "model": "gemini-3.1-flash-image",
+      "stability": "stable",
+      "output_sizes": ["0.5K", "1K", "2K", "4K"],
+      "synthid": true,
+      "smoke_test": "pending"
+    },
+    "video_input": {
+      "file_api_limit_free_bytes": 2147483648,
+      "file_api_limit_paid_bytes": 21474836480,
+      "inline_limit_bytes_exclusive": 104857600,
+      "default_visual_sampling_fps": 1,
+      "timestamped_review_smoke_test": "pending"
+    }
+  },
+  "video_generation": {
+    "selected_provider": "capcut_manual",
+    "selection_status": "selected_as_step_0_fallback",
+    "automated_provider": {
+      "status": "unavailable_without_credentials",
+      "preferred_candidate": "runway",
+      "preferred_model": "seedance2",
+      "region": "provider_managed",
+      "credits_available": "unverified",
+      "published_cost_credits_per_second": {
+        "480p_or_720p": 36,
+        "1080p": 40,
+        "4K": 150
+      },
+      "secondary_candidate": {
+        "provider": "byteplus_modelark",
+        "model": "dreamina-seedance-2-0-260128",
+        "api_region": "ap-southeast",
+        "credits_available": "unverified"
+      }
+    },
+    "capcut_manual": {
+      "status": "selected",
+      "official_api_required": false,
+      "browser_automation_allowed": false,
+      "real_export_import_test": "pending_sample_from_capcut"
+    }
+  },
+  "media_smoke_test": {
+    "status": "verified_with_synthetic_fixture",
+    "source": {
+      "container": "mp4",
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration_seconds": 3,
+      "width": 640,
+      "height": 360,
+      "frame_rate": 24
+    },
+    "transcode": {
+      "status": "passed",
+      "output_container": "mp4",
+      "output_video_codec": "h264",
+      "output_audio_codec": "aac",
+      "output_width": 320,
+      "output_height": 180,
+      "faststart": true
+    }
+  },
+  "step_0_exit_criteria": {
+    "gemini_text_real_request": "blocked",
+    "gemini_video_real_request": "blocked",
+    "gemini_image_real_request": "blocked",
+    "ffmpeg_probe_and_transcode": "passed",
+    "video_provider_or_manual_fallback_selected": "passed",
+    "capcut_real_mp4_round_trip": "pending",
+    "overall": "not_complete"
+  }
+}
