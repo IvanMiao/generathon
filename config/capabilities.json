@@ -55,8 +55,8 @@
       "measured_tempo_bpm": 112.347,
       "beat_count": 179,
       "onset_count": 793,
-      "candidate_boundaries_seconds": [0.0, 26.099, 61.277, 106.487, 120.024],
-      "provisional_demo_range_seconds": [0.0, 61.277]
+      "candidate_boundaries_seconds": [0.0, 9.241542, 26.099229, 58.700045, 106.486712, 120.024],
+      "provisional_demo_range_seconds": [0.0, 120.024]
     }
   },
   "gemini": {

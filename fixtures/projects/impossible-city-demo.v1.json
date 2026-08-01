@@ -1,6 +1,6 @@
 {
   "fixture_schema_version": "1.0.0",
-  "fixture_id": "fixture-impossible-city-demo-v1",
+  "fixture_id": "fixture-impossible-city-demo-120s-v1",
   "fixture_description": "Complete offline score-to-cinema project for an impossible city that remembers itself incorrectly.",
   "project": {
     "schema_version": "1.0.0",
@@ -13,9 +13,9 @@
     "creation_mode": "listen_first",
     "creative_state": "rough_cut",
     "selected_audio_asset_id": "audio-demo-track",
-    "selected_audio_range": { "start_seconds": 0, "end_seconds": 61.277 },
+    "selected_audio_range": { "start_seconds": 0, "end_seconds": 120.024 },
     "aspect_ratio": "16:9",
-    "target_duration_seconds": 61.277,
+    "target_duration_seconds": 120.024,
     "daily_video_generation_limit": 10,
     "active_treatment_id": "treatment-recursive-architecture",
     "active_assembly_run_id": "assembly-fallback-cut"
@@ -31,23 +31,23 @@
     {
       "schema_version": "1.0.0", "id": "artifact-state-origin", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:15:00Z", "updated_at": "2026-08-01T12:15:00Z",
-      "kind": "image", "relative_path": "fixtures/media/state-origin.png",
-      "sha256": "1111111111111111111111111111111111111111111111111111111111111111", "mime_type": "image/png",
-      "provenance": { "source": "import", "provider_run_id": null, "parent_artifact_ids": [] }
+      "kind": "image", "relative_path": "public/demo/visual-states/state-origin.png",
+      "sha256": "ad849907e21f9ede54305b91160cad0c4b09c552881b2f61bf56420bb603fd50", "mime_type": "image/png",
+      "provenance": { "source": "local_process", "provider_run_id": null, "parent_artifact_ids": ["artifact-shot-03-fallback"] }
     },
     {
       "schema_version": "1.0.0", "id": "artifact-state-breath", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:15:00Z", "updated_at": "2026-08-01T12:15:00Z",
-      "kind": "image", "relative_path": "fixtures/media/state-breath.png",
-      "sha256": "2222222222222222222222222222222222222222222222222222222222222222", "mime_type": "image/png",
-      "provenance": { "source": "import", "provider_run_id": null, "parent_artifact_ids": [] }
+      "kind": "image", "relative_path": "public/demo/visual-states/state-breath.png",
+      "sha256": "18c232e517e2765a1aec3a004793e9044a4d4a312d76896146f88156e0d74976", "mime_type": "image/png",
+      "provenance": { "source": "local_process", "provider_run_id": null, "parent_artifact_ids": ["artifact-shot-04-mutation"] }
     },
     {
       "schema_version": "1.0.0", "id": "artifact-state-still", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:15:00Z", "updated_at": "2026-08-01T12:15:00Z",
-      "kind": "image", "relative_path": "fixtures/media/state-still.png",
-      "sha256": "3333333333333333333333333333333333333333333333333333333333333333", "mime_type": "image/png",
-      "provenance": { "source": "import", "provider_run_id": null, "parent_artifact_ids": [] }
+      "kind": "image", "relative_path": "public/demo/visual-states/state-still.png",
+      "sha256": "4ae85e1559078cb0ecbf1105625f262421dd6496d22280904e60613a9225a5ce", "mime_type": "image/png",
+      "provenance": { "source": "local_process", "provider_run_id": null, "parent_artifact_ids": ["artifact-shot-04-mutation"] }
     },
     {
       "schema_version": "1.0.0", "id": "artifact-shot-01-failed", "project_id": "project-impossible-city", "revision": 1,
@@ -113,7 +113,7 @@
       "artifact_id": "artifact-audio", "working_title": "Original Melodic Electronica 120s",
       "sha256": "527626c6d33c5d0325da00f9b5ddefb1b7ff6941c8502ebdb0735fb120ca684a",
       "duration_seconds": 120.024, "format": "MP3", "sample_rate_hz": 48000, "channels": 2,
-      "selected_range": { "start_seconds": 0, "end_seconds": 61.277 },
+      "selected_range": { "start_seconds": 0, "end_seconds": 120.024 },
       "source": "ElevenLabs generated", "rights_declaration": "docs/rights/demo-track.md", "public_demo_permission": true
     }
   ],
@@ -123,35 +123,36 @@
       "created_at": "2026-08-01T12:02:00Z", "updated_at": "2026-08-01T12:02:00Z",
       "audio_asset_id": "audio-demo-track",
       "method": { "engine": "librosa", "engine_version": "0.11.0", "parameters_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" },
-      "analyzed_range": { "start_seconds": 0, "end_seconds": 61.277 },
+      "analyzed_range": { "start_seconds": 0, "end_seconds": 120.024 },
       "waveform": [
-        { "time_seconds": 0, "value": 0.08 }, { "time_seconds": 9.5, "value": 0.19 },
-        { "time_seconds": 20.5, "value": 0.42 }, { "time_seconds": 31.5, "value": 0.61 },
-        { "time_seconds": 42.5, "value": 0.78 }, { "time_seconds": 52.5, "value": 0.52 },
-        { "time_seconds": 61.277, "value": 0.04 }
+        { "time_seconds": 0, "value": 0.08 }, { "time_seconds": 9.241542, "value": 0.19 },
+        { "time_seconds": 26.099229, "value": 0.42 }, { "time_seconds": 58.700045, "value": 0.61 },
+        { "time_seconds": 84.288435, "value": 0.78 }, { "time_seconds": 106.486712, "value": 0.52 },
+        { "time_seconds": 120.024, "value": 0.04 }
       ],
       "energy_envelope": [
-        { "time_seconds": 0, "value": 0.12 }, { "time_seconds": 9.5, "value": 0.24 },
-        { "time_seconds": 20.5, "value": 0.43 }, { "time_seconds": 31.5, "value": 0.67 },
-        { "time_seconds": 42.5, "value": 0.84 }, { "time_seconds": 52.5, "value": 0.49 },
-        { "time_seconds": 61.277, "value": 0.05 }
+        { "time_seconds": 0, "value": 0.12 }, { "time_seconds": 9.241542, "value": 0.24 },
+        { "time_seconds": 26.099229, "value": 0.43 }, { "time_seconds": 58.700045, "value": 0.67 },
+        { "time_seconds": 84.288435, "value": 0.84 }, { "time_seconds": 106.486712, "value": 0.49 },
+        { "time_seconds": 120.024, "value": 0.05 }
       ],
       "tempo_bpm": 112.347,
-      "beats_seconds": [0, 0.534, 1.068, 9.613, 20.828, 31.509, 42.724, 52.871, 61.277],
-      "onsets_seconds": [0.31, 4.8, 9.51, 20.52, 31.49, 42.51, 52.49, 60.94],
+      "beats_seconds": [0, 0.534, 9.241542, 26.099229, 34.528073, 58.700045, 66.107211, 84.288435, 94.528435, 106.486712, 110.318005],
+      "onsets_seconds": [0.31, 9.241542, 26.099229, 33.738594, 58.700045, 84.288435, 96.896871, 106.486712, 119.5],
       "spectral_centroid_mean_hz": 1824.37,
       "candidate_sections": [
-        { "id": "candidate-a", "range": { "start_seconds": 0, "end_seconds": 12 }, "label": "Latent aperture", "confidence": 0.72 },
-        { "id": "candidate-b", "range": { "start_seconds": 12, "end_seconds": 28 }, "label": "First recurrence", "confidence": 0.81 },
-        { "id": "candidate-c", "range": { "start_seconds": 28, "end_seconds": 48 }, "label": "Pressure body", "confidence": 0.78 },
-        { "id": "candidate-d", "range": { "start_seconds": 48, "end_seconds": 61.277 }, "label": "Release into stillness", "confidence": 0.75 }
+        { "id": "candidate-a", "range": { "start_seconds": 0, "end_seconds": 9.241542 }, "label": "Latent aperture", "confidence": 0.725 },
+        { "id": "candidate-b", "range": { "start_seconds": 9.241542, "end_seconds": 26.099229 }, "label": "First recurrence", "confidence": 0.556 },
+        { "id": "candidate-c", "range": { "start_seconds": 26.099229, "end_seconds": 58.700045 }, "label": "Pressure body", "confidence": 0.77 },
+        { "id": "candidate-d", "range": { "start_seconds": 58.700045, "end_seconds": 106.486712 }, "label": "Unstable return", "confidence": 0.558 },
+        { "id": "candidate-e", "range": { "start_seconds": 106.486712, "end_seconds": 120.024 }, "label": "Release into stillness", "confidence": 0.575 }
       ],
       "events": [
-        { "id": "event-first-breath", "time_seconds": 9.51, "kind": "onset", "strength": 0.63, "confidence": 0.9 },
-        { "id": "event-return", "time_seconds": 20.52, "kind": "boundary", "strength": 0.78, "confidence": 0.83 },
-        { "id": "event-pressure", "time_seconds": 31.49, "kind": "energy_peak", "strength": 0.94, "confidence": 0.88 },
-        { "id": "event-memory-slip", "time_seconds": 42.51, "kind": "spectral_change", "strength": 0.81, "confidence": 0.8 },
-        { "id": "event-withdrawal", "time_seconds": 52.49, "kind": "boundary", "strength": 0.71, "confidence": 0.79 }
+        { "id": "event-first-breath", "time_seconds": 9.241542, "kind": "boundary", "strength": 0.2, "confidence": 0.67 },
+        { "id": "event-return", "time_seconds": 26.099229, "kind": "boundary", "strength": 0.627, "confidence": 0.82 },
+        { "id": "event-pressure", "time_seconds": 58.700045, "kind": "boundary", "strength": 0.155, "confidence": 0.65 },
+        { "id": "event-memory-slip", "time_seconds": 84.288435, "kind": "spectral_change", "strength": 0.882, "confidence": 0.9 },
+        { "id": "event-withdrawal", "time_seconds": 106.486712, "kind": "boundary", "strength": 0.142, "confidence": 0.65 }
       ],
       "confidence": 0.82
     }
@@ -160,14 +161,14 @@
     {
       "schema_version": "1.0.0", "id": "analysis-revision-demo-v1", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:04:00Z", "updated_at": "2026-08-01T12:04:00Z",
-      "base_analysis_id": "analysis-demo-v1", "selected_range": { "start_seconds": 0, "end_seconds": 61.277 },
+      "base_analysis_id": "analysis-demo-v1", "selected_range": { "start_seconds": 0, "end_seconds": 120.024 },
       "sections": [
-        { "id": "section-01", "range": { "start_seconds": 0, "end_seconds": 9.5 }, "label": "Before breath", "source": "user" },
-        { "id": "section-02", "range": { "start_seconds": 9.5, "end_seconds": 20.5 }, "label": "First breath", "source": "user" },
-        { "id": "section-03", "range": { "start_seconds": 20.5, "end_seconds": 31.5 }, "label": "Remembered return", "source": "user" },
-        { "id": "section-04", "range": { "start_seconds": 31.5, "end_seconds": 42.5 }, "label": "Pressure chamber", "source": "user" },
-        { "id": "section-05", "range": { "start_seconds": 42.5, "end_seconds": 52.5 }, "label": "Incorrect recurrence", "source": "user" },
-        { "id": "section-06", "range": { "start_seconds": 52.5, "end_seconds": 61.277 }, "label": "Irreversible stillness", "source": "user" }
+        { "id": "section-01", "range": { "start_seconds": 0, "end_seconds": 9.241542 }, "label": "Before breath", "source": "user" },
+        { "id": "section-02", "range": { "start_seconds": 9.241542, "end_seconds": 26.099229 }, "label": "First breath", "source": "user" },
+        { "id": "section-03", "range": { "start_seconds": 26.099229, "end_seconds": 58.700045 }, "label": "Remembered return", "source": "user" },
+        { "id": "section-04", "range": { "start_seconds": 58.700045, "end_seconds": 84.288435 }, "label": "Pressure chamber", "source": "user" },
+        { "id": "section-05", "range": { "start_seconds": 84.288435, "end_seconds": 106.486712 }, "label": "Incorrect recurrence", "source": "user" },
+        { "id": "section-06", "range": { "start_seconds": 106.486712, "end_seconds": 120.024 }, "label": "Irreversible stillness", "source": "user" }
       ],
       "event_decisions": [
         { "event_id": "event-first-breath", "decision": "keep", "shifted_time_seconds": null, "rationale": "Defines the first visible permission to move." },
@@ -185,21 +186,21 @@
       "emotional_arc": "Latent permission becomes pressure, recurrence becomes unreliable, and the final cadence resolves through stillness rather than expansion.",
       "recurrence_motifs": ["Breath without lungs", "Return with one altered law", "Pressure answered by visual restraint"],
       "sections": [
-        { "id": "reading-section-01", "range": { "start_seconds": 0, "end_seconds": 9.5 }, "label": "Latent permission", "structural_role": "Establish a restrained field before the pulse becomes legible.", "tension": "low", "narrative_possibility": "A city exists but has not yet admitted that it is alive.", "evidence_event_ids": [], "confidence": 0.79 },
-        { "id": "reading-section-02", "range": { "start_seconds": 9.5, "end_seconds": 20.5 }, "label": "First breath", "structural_role": "Introduce a recurring expansion without literalizing every beat.", "tension": "rising", "narrative_possibility": "One aperture opens and makes every surface slightly lighter.", "evidence_event_ids": ["event-first-breath"], "confidence": 0.88 },
-        { "id": "reading-section-03", "range": { "start_seconds": 20.5, "end_seconds": 31.5 }, "label": "Remembered return", "structural_role": "Repeat the gesture with delayed consequence.", "tension": "rising", "narrative_possibility": "The city repeats the breath but changes scale instead of volume.", "evidence_event_ids": ["event-return"], "confidence": 0.82 },
-        { "id": "reading-section-04", "range": { "start_seconds": 31.5, "end_seconds": 42.5 }, "label": "Pressure chamber", "structural_role": "Hold visual motion against the strongest energy accumulation.", "tension": "high", "narrative_possibility": "Stored weight deforms the city inward while the camera refuses spectacle.", "evidence_event_ids": ["event-pressure"], "confidence": 0.86 },
-        { "id": "reading-section-05", "range": { "start_seconds": 42.5, "end_seconds": 52.5 }, "label": "Incorrect recurrence", "structural_role": "Permit one expressive deviation when the motif returns.", "tension": "releasing", "narrative_possibility": "The city remembers an opening that never existed and keeps it.", "evidence_event_ids": ["event-memory-slip"], "confidence": 0.8 },
-        { "id": "reading-section-06", "range": { "start_seconds": 52.5, "end_seconds": 61.277 }, "label": "Withheld release", "structural_role": "Resolve by removing motion before the music fully disappears.", "tension": "suspended", "narrative_possibility": "Breath becomes architecture and the city cannot return to its first state.", "evidence_event_ids": ["event-withdrawal"], "confidence": 0.84 }
+        { "id": "reading-section-01", "range": { "start_seconds": 0, "end_seconds": 9.241542 }, "label": "Latent permission", "structural_role": "Establish a restrained field before the pulse becomes legible.", "tension": "low", "narrative_possibility": "A city exists but has not yet admitted that it is alive.", "evidence_event_ids": [], "confidence": 0.79 },
+        { "id": "reading-section-02", "range": { "start_seconds": 9.241542, "end_seconds": 26.099229 }, "label": "First breath", "structural_role": "Introduce a recurring expansion without literalizing every beat.", "tension": "rising", "narrative_possibility": "One aperture opens and makes every surface slightly lighter.", "evidence_event_ids": ["event-first-breath"], "confidence": 0.88 },
+        { "id": "reading-section-03", "range": { "start_seconds": 26.099229, "end_seconds": 58.700045 }, "label": "Remembered return", "structural_role": "Repeat the gesture with delayed consequence across the score's longest accumulation.", "tension": "rising", "narrative_possibility": "The city repeats the breath but changes scale instead of volume.", "evidence_event_ids": ["event-return"], "confidence": 0.82 },
+        { "id": "reading-section-04", "range": { "start_seconds": 58.700045, "end_seconds": 84.288435 }, "label": "Pressure chamber", "structural_role": "Hold visual motion against the strongest energy accumulation.", "tension": "high", "narrative_possibility": "Stored weight deforms the city inward while the camera refuses spectacle.", "evidence_event_ids": ["event-pressure"], "confidence": 0.86 },
+        { "id": "reading-section-05", "range": { "start_seconds": 84.288435, "end_seconds": 106.486712 }, "label": "Incorrect recurrence", "structural_role": "Permit one expressive deviation when the motif returns.", "tension": "releasing", "narrative_possibility": "The city remembers an opening that never existed and keeps it.", "evidence_event_ids": ["event-memory-slip"], "confidence": 0.8 },
+        { "id": "reading-section-06", "range": { "start_seconds": 106.486712, "end_seconds": 120.024 }, "label": "Withheld release", "structural_role": "Resolve by removing motion before the music fully disappears.", "tension": "suspended", "narrative_possibility": "Breath becomes architecture and the city cannot return to its first state.", "evidence_event_ids": ["event-withdrawal"], "confidence": 0.84 }
       ],
       "significant_events": [
-        { "time_seconds": 9.51, "interpretation": "The first permitted expansion.", "evidence_event_ids": ["event-first-breath"], "confidence": 0.9 },
-        { "time_seconds": 42.51, "interpretation": "A recurrence returns with the wrong visual law.", "evidence_event_ids": ["event-memory-slip"], "confidence": 0.8 }
+        { "time_seconds": 9.241542, "interpretation": "The first permitted expansion.", "evidence_event_ids": ["event-first-breath"], "confidence": 0.9 },
+        { "time_seconds": 84.288435, "interpretation": "A recurrence returns with the wrong visual law.", "evidence_event_ids": ["event-memory-slip"], "confidence": 0.8 }
       ],
       "intentional_non_events": [
-        { "range": { "start_seconds": 31.5, "end_seconds": 36 }, "rationale": "The energy peak is answered by near-stillness, not a cut or camera acceleration." }
+        { "range": { "start_seconds": 58.700045, "end_seconds": 64 }, "rationale": "The energy peak is answered by near-stillness, not a cut or camera acceleration." }
       ],
-      "assumptions": ["The selected excerpt is treated as an autonomous dramatic unit.", "No lyrical narrative is inferred because the source is instrumental."]
+      "assumptions": ["The complete two-minute score is treated as one autonomous dramatic unit.", "No lyrical narrative is inferred because the source is instrumental."]
     }
   ],
   "director_treatments": [
@@ -210,8 +211,8 @@
       "proposition": "An impossible city learns to breathe by remembering each prior state incorrectly.",
       "structural_strategy": "Each recurrence revisits one composition while changing exactly one physical law.",
       "narrative_path": [
-        { "id": "recursive-beat-a", "range": { "start_seconds": 0, "end_seconds": 31.5 }, "description": "The city discovers expansion and mistakes it for memory." },
-        { "id": "recursive-beat-b", "range": { "start_seconds": 31.5, "end_seconds": 61.277 }, "description": "Pressure creates an impossible opening, then fixes the world in a new still state." }
+        { "id": "recursive-beat-a", "range": { "start_seconds": 0, "end_seconds": 58.700045 }, "description": "The city discovers expansion and mistakes it for memory." },
+        { "id": "recursive-beat-b", "range": { "start_seconds": 58.700045, "end_seconds": 120.024 }, "description": "Pressure creates an impossible opening, then fixes the world in a new still state." }
       ],
       "visual_world": "Monolithic mineral rooms, oxidized apertures, and translucent membranes at an almost-human scale.",
       "music_interpretation": "Macro recurrences govern transformations; micro beats affect surface tension but rarely trigger cuts.",
@@ -225,8 +226,8 @@
       "proposition": "A single immense organism is inferred only through pressure changes inside a black reservoir.",
       "structural_strategy": "The camera never reveals the whole subject; musical sections change the evidence available to the viewer.",
       "narrative_path": [
-        { "id": "organism-beat-a", "range": { "start_seconds": 0, "end_seconds": 31.5 }, "description": "Small pressure wakes imply a body beyond the frame." },
-        { "id": "organism-beat-b", "range": { "start_seconds": 31.5, "end_seconds": 61.277 }, "description": "The reservoir clarifies while the organism withdraws, reversing expected revelation." }
+        { "id": "organism-beat-a", "range": { "start_seconds": 0, "end_seconds": 58.700045 }, "description": "Small pressure wakes imply a body beyond the frame." },
+        { "id": "organism-beat-b", "range": { "start_seconds": 58.700045, "end_seconds": 120.024 }, "description": "The reservoir clarifies while the organism withdraws, reversing expected revelation." }
       ],
       "visual_world": "Black water, suspended pale silt, membrane fragments, and no readable architecture.",
       "music_interpretation": "Energy changes visibility and pressure rather than object motion.",
@@ -240,8 +241,8 @@
       "proposition": "Six forensic views document the disappearance of an event that may never have occurred.",
       "structural_strategy": "Every section removes one class of visual evidence while textless framing becomes increasingly precise.",
       "narrative_path": [
-        { "id": "chronicle-beat-a", "range": { "start_seconds": 0, "end_seconds": 31.5 }, "description": "Evidence accumulates but cannot agree on a cause." },
-        { "id": "chronicle-beat-b", "range": { "start_seconds": 31.5, "end_seconds": 61.277 }, "description": "The archive becomes exact only after the event has disappeared." }
+        { "id": "chronicle-beat-a", "range": { "start_seconds": 0, "end_seconds": 58.700045 }, "description": "Evidence accumulates but cannot agree on a cause." },
+        { "id": "chronicle-beat-b", "range": { "start_seconds": 58.700045, "end_seconds": 120.024 }, "description": "The archive becomes exact only after the event has disappeared." }
       ],
       "visual_world": "Clinical stone tables, numbered voids without typography, fixed forensic lenses, and fading material residue.",
       "music_interpretation": "Repetition subtracts rather than returns; increased musical energy produces cleaner absence.",
@@ -255,17 +256,17 @@
       "created_at": "2026-08-01T12:12:00Z", "updated_at": "2026-08-01T12:12:00Z",
       "treatment_id": "treatment-recursive-architecture", "status": "locked",
       "theme": "Memory is a physical law that changes the thing remembering.",
-      "world_ontology": "The city is one continuous interior intelligence; rooms are organs and apertures are memories, never ordinary doors.",
-      "subjects": ["The city as a distributed subject"],
-      "objects": ["One recurring oval aperture", "One mineral plane at almost-human scale"],
-      "materials": ["Matte pale mineral", "Oxidized dark metal", "Translucent organic membrane"],
-      "palette": { "dominant": ["cold chalk", "graphite", "smoke grey"], "accent": ["restrained oxidized amber"], "forbidden": ["neon cyan", "saturated magenta"] },
-      "light_rules": ["Light has one soft lateral source.", "The amber accent may appear only inside the recurring aperture."],
+      "world_ontology": "The city is a hand-built paper production that remembers itself through storyboards, perforated frames, and one recurring origami bird.",
+      "subjects": ["The paper city as a distributed subject", "One faceted white paper bird"],
+      "objects": ["One recurring perforated arch", "Storyboard façades and film-strip bridges"],
+      "materials": ["Cut and folded paper", "Corrugated card edges", "Graphite and ink marks"],
+      "palette": { "dominant": ["paper bone", "graphite", "deep navy"], "accent": ["muted turquoise", "restrained magenta"], "forbidden": ["neon glow", "photoreal metal"] },
+      "light_rules": ["Light behaves like a controlled tabletop stage.", "Hard paper shadows reveal folds without breaking the diorama illusion."],
       "camera_rules": ["Camera behavior is limited to observe, approach, and drift.", "No handheld motion, orbit, whip pan, or speed ramp."],
-      "transformation_rules": ["A recurrence changes only weight, scale, topology, or memory.", "Transformations remain materially continuous and never become particle effects."],
+      "transformation_rules": ["A recurrence changes only scale, framing, paper topology, or remembered order.", "Transformations remain visibly paper-based and never become particle effects."],
       "montage_rules": ["Cut on structural permission, not every beat.", "Hold through the strongest energy event at least once."],
-      "invariants": ["The oval aperture recurs with stable proportions.", "The city remains one continuous interior world.", "No conventional protagonist enters the frame."],
-      "forbidden_elements": ["DJ imagery", "waveform imagery", "generic skyline", "outer space", "readable typography", "arbitrary sparks"]
+      "invariants": ["Perforated film edges recur as the stable memory motif.", "The city remains one continuous hand-built paper world.", "The white paper bird is the only singular protagonist."],
+      "forbidden_elements": ["DJ imagery", "waveform imagery", "generic skyline", "outer space", "readable typography", "arbitrary sparks", "photoreal humans"]
     }
   ],
   "audiovisual_contracts": [
@@ -275,7 +276,7 @@
       "music_reading_id": "reading-city-memory-v1", "film_bible_id": "bible-recursive-city-v1", "status": "approved",
       "principles": [
         { "id": "principle-delay", "relationship_mode": "suspension", "applies_to": "opening and ending", "rationale": "Visible change arrives after musical permission and stops before full release." },
-        { "id": "principle-recurrence", "relationship_mode": "motif_binding", "applies_to": "recurring aperture", "rationale": "The aperture binds recurrence without duplicating every rhythmic event." },
+        { "id": "principle-recurrence", "relationship_mode": "motif_binding", "applies_to": "perforated arch and paper bird", "rationale": "The film-frame motif binds recurrence without duplicating every rhythmic event." },
         { "id": "principle-pressure", "relationship_mode": "counterpoint", "applies_to": "energy maximum", "rationale": "The camera and composition become quieter as pressure rises." },
         { "id": "principle-consequence", "relationship_mode": "mirror", "applies_to": "one topology change", "rationale": "A single visible fold mirrors the clearest spectral transition." }
       ],
@@ -287,32 +288,32 @@
     {
       "schema_version": "1.0.0", "id": "visual-state-origin", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:16:00Z", "updated_at": "2026-08-01T12:16:00Z", "film_bible_id": "bible-recursive-city-v1", "status": "locked",
-      "name": "State A — Latent City", "world_state": "A sealed mineral chamber holds more volume than its exterior could contain.",
-      "subject_state": "The city is dormant and the recurring aperture is sealed.", "composition": "Centered low mineral plane with an oval recess above the horizontal midpoint.",
-      "material": "Dry matte chalk mineral and unlit oxidized metal.", "light": "Soft lateral grey light with no visible source.", "camera": "Static observation at almost-human eye height.",
+      "name": "State A — Scripted Street", "world_state": "A handmade paper city performs an ordinary crossing while storyboard drawings remain visible on its façades.",
+      "subject_state": "Faceless paper residents follow fixed paths; the white bird exists only as an unconfirmed drawn motif.", "composition": "One-point street perspective with pale figures crossing between turquoise and magenta card buildings.",
+      "material": "Cut paper, corrugated card edges, pencil construction lines, and matte ink.", "light": "Controlled daylight creates crisp miniature shadows without photoreal glare.", "camera": "Centered street-level observation on a fixed axis.",
       "reference_artifact_ids": ["artifact-state-origin"]
     },
     {
       "schema_version": "1.0.0", "id": "visual-state-breath", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:16:00Z", "updated_at": "2026-08-01T12:16:00Z", "film_bible_id": "bible-recursive-city-v1", "status": "approved",
-      "name": "State B — Remembering Chamber", "world_state": "The same chamber has gained depth by folding one wall inward without seams.",
-      "subject_state": "The aperture is open behind a taut translucent membrane and emits restrained amber light.", "composition": "The recurring oval remains proportionally stable but moves one third right as space deepens.",
-      "material": "Chalk mineral under compression, oxidized rim, translucent membrane.", "light": "Cold lateral light plus a narrow amber interior source.", "camera": "Slow approach on a fixed axis.",
+      "name": "State B — Perforated Memory", "world_state": "The street has unfolded into film-strip bridges and torn storyboard pages over a blue paper current.",
+      "subject_state": "The bird passes between frame holes while the city's architecture becomes its own editing apparatus.", "composition": "Symmetrical paper arches converge on two perforated pages with the blue current centered below.",
+      "material": "Layered card, torn paper apertures, black ink, and saturated blue paper.", "light": "Directional stage light isolates page depth and preserves visible fiber texture.", "camera": "A slow axial approach that never breaks miniature scale.",
       "reference_artifact_ids": ["artifact-state-breath"]
     },
     {
       "schema_version": "1.0.0", "id": "visual-state-still", "project_id": "project-impossible-city", "revision": 1,
       "created_at": "2026-08-01T12:16:00Z", "updated_at": "2026-08-01T12:16:00Z", "film_bible_id": "bible-recursive-city-v1", "status": "locked",
-      "name": "State C — Irreversible Stillness", "world_state": "The folded chamber has become a weightless vertical plane while preserving its material continuity.",
-      "subject_state": "The aperture remains open but no longer emits light; its membrane is perfectly still.", "composition": "Frontal symmetrical plane interrupted only by the stable oval aperture.",
-      "material": "Suspended chalk mineral, dark oxidized rim, clear inert membrane.", "light": "Cold light flattens depth and removes the amber accent.", "camera": "Static final observation with no settling motion.",
+      "name": "State C — Archived Flight", "world_state": "The city has collapsed into one upright perforated arch that preserves the bird as a fixed memory.",
+      "subject_state": "The white paper bird is held mid-flight; its cast shadow remains the only trace of motion.", "composition": "Frontal centered arch against deep navy with the bird and its shadow locked inside.",
+      "material": "Pale fiber card, precise perforations, folded white paper, and matte navy backing.", "light": "One hard lateral source fixes the bird's shadow and removes the street palette.", "camera": "Static frontal observation with no settling motion.",
       "reference_artifact_ids": ["artifact-state-still"]
     }
   ],
   "visual_score_segments": [
     {
       "schema_version": "1.0.0", "id": "score-01", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:18:00Z", "updated_at": "2026-08-01T12:18:00Z",
-      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 0, "end_seconds": 9.5 },
+      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 0, "end_seconds": 9.241542 },
       "music_evidence": [{ "kind": "section", "time_seconds": 0, "description": "Low-energy field before the first retained onset." }],
       "narrative_state": "The city is present but has not admitted movement.", "visual_state_description": "Remain inside State A and withhold visible response.",
       "relationship_mode": "suspension", "transition_strategy": "Hold the sealed aperture through the first hints of pulse.", "confidence": 0.86,
@@ -320,40 +321,40 @@
     },
     {
       "schema_version": "1.0.0", "id": "score-02", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:18:00Z", "updated_at": "2026-08-01T12:18:00Z",
-      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 9.5, "end_seconds": 20.5 },
-      "music_evidence": [{ "kind": "event", "time_seconds": 9.51, "description": "First retained onset permits the aperture to open." }],
+      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 9.241542, "end_seconds": 26.099229 },
+      "music_evidence": [{ "kind": "event", "time_seconds": 9.241542, "description": "First retained boundary permits the aperture to open." }],
       "narrative_state": "The city discovers one breath.", "visual_state_description": "Move from sealed mineral to the first membrane tension of State B.",
       "relationship_mode": "motif_binding", "transition_strategy": "Let the aperture bind the recurring phrase while surface motion ignores minor beats.", "confidence": 0.91,
       "visual_state_ids": ["visual-state-origin", "visual-state-breath"]
     },
     {
       "schema_version": "1.0.0", "id": "score-03", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:18:00Z", "updated_at": "2026-08-01T12:18:00Z",
-      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 20.5, "end_seconds": 31.5 },
-      "music_evidence": [{ "kind": "recurrence", "time_seconds": 20.52, "description": "The phrase returns but its consequence may be delayed." }],
+      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 26.099229, "end_seconds": 58.700045 },
+      "music_evidence": [{ "kind": "recurrence", "time_seconds": 26.099229, "description": "The phrase returns but its consequence may be delayed." }],
       "narrative_state": "The city repeats the breath and changes scale instead of volume.", "visual_state_description": "Deepen State B while slowing the camera below the musical acceleration.",
       "relationship_mode": "counterpoint", "transition_strategy": "Approach more slowly as energy grows; let the wall fold without a cut.", "confidence": 0.84,
       "visual_state_ids": ["visual-state-breath"]
     },
     {
       "schema_version": "1.0.0", "id": "score-04", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:18:00Z", "updated_at": "2026-08-01T12:18:00Z",
-      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 31.5, "end_seconds": 42.5 },
-      "music_evidence": [{ "kind": "event", "time_seconds": 31.5, "description": "The energy maximum concentrates pressure." }],
+      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 58.700045, "end_seconds": 84.288435 },
+      "music_evidence": [{ "kind": "event", "time_seconds": 58.700045, "description": "The long accumulation crosses a measured boundary and concentrates pressure." }],
       "narrative_state": "Stored weight deforms the chamber inward.", "visual_state_description": "One topology fold becomes legible while camera movement nearly stops.",
       "relationship_mode": "mirror", "transition_strategy": "Mirror the clear structural pressure with one continuous material fold, then hold.", "confidence": 0.87,
       "visual_state_ids": ["visual-state-breath"]
     },
     {
       "schema_version": "1.0.0", "id": "score-05", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:18:00Z", "updated_at": "2026-08-01T12:18:00Z",
-      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 42.5, "end_seconds": 52.5 },
-      "music_evidence": [{ "kind": "recurrence", "time_seconds": 42.51, "description": "Spectral change makes the recurrence feel incorrectly remembered." }],
+      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 84.288435, "end_seconds": 106.486712 },
+      "music_evidence": [{ "kind": "recurrence", "time_seconds": 84.288435, "description": "Spectral change makes the recurrence feel incorrectly remembered." }],
       "narrative_state": "The city remembers an opening that never existed.", "visual_state_description": "Accept a controlled weightless plane as a mutation toward State C.",
       "relationship_mode": "motif_binding", "transition_strategy": "Preserve aperture proportions while allowing gravity to fail once.", "confidence": 0.8,
       "visual_state_ids": ["visual-state-breath", "visual-state-still"]
     },
     {
       "schema_version": "1.0.0", "id": "score-06", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:18:00Z", "updated_at": "2026-08-01T12:18:00Z",
-      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 52.5, "end_seconds": 61.277 },
-      "music_evidence": [{ "kind": "intentional_non_event", "time_seconds": 52.5, "description": "The expected visual release is intentionally withheld." }],
+      "audiovisual_contract_id": "av-contract-city-v1", "range": { "start_seconds": 106.486712, "end_seconds": 120.024 },
+      "music_evidence": [{ "kind": "intentional_non_event", "time_seconds": 106.486712, "description": "The expected visual release is intentionally withheld." }],
       "narrative_state": "The new memory becomes permanent architecture.", "visual_state_description": "Arrive at State C early and remove all residual movement before the music ends.",
       "relationship_mode": "suspension", "transition_strategy": "Complete the visual stop before the final musical decay.", "confidence": 0.89,
       "visual_state_ids": ["visual-state-still"]
@@ -362,27 +363,27 @@
   "shot_specs": [
     {
       "schema_version": "1.0.0", "id": "shot-01", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:20:00Z", "updated_at": "2026-08-01T12:20:00Z", "status": "locked",
-      "range": { "start_seconds": 0, "end_seconds": 9.5 }, "visual_score_segment_ids": ["score-01"],
+      "range": { "start_seconds": 0, "end_seconds": 9.241542 }, "visual_score_segment_ids": ["score-01"],
       "musical_function": "Establish the withheld response before the first retained onset.", "narrative_function": "Prove the city exists before it can breathe.", "visual_function": "Lock the aperture proportions, mineral material, and observation camera.",
       "start_visual_state_id": "visual-state-origin", "end_visual_state_id": "visual-state-origin", "camera": "Static observe; no drift.",
-      "action": "Only a nearly imperceptible change in membrane pressure is allowed after eight seconds.", "transition": "Hard cut at 9.5 seconds after the held field.",
+      "action": "Only a nearly imperceptible change in membrane pressure is allowed after eight seconds.", "transition": "Hard cut at 9.241542 seconds after the held field.",
       "references": [{ "artifact_id": "artifact-state-origin", "controls": ["style", "material", "composition", "start_state", "end_state"] }],
       "provider_strategy": { "preferred_provider": "gemini", "fallback_strategy": "Animate the approved still with deterministic micro-scale hold and crossfade.", "motion_priority": "Preserve stillness and material coherence over visible action." },
       "acceptance_criteria": ["Aperture proportions remain unchanged.", "No camera motion is visible before the cut."]
     },
     {
       "schema_version": "1.0.0", "id": "shot-02", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:20:00Z", "updated_at": "2026-08-01T12:20:00Z", "status": "locked",
-      "range": { "start_seconds": 9.5, "end_seconds": 20.5 }, "visual_score_segment_ids": ["score-02"],
+      "range": { "start_seconds": 9.241542, "end_seconds": 26.099229 }, "visual_score_segment_ids": ["score-02"],
       "musical_function": "Bind the first phrase to the aperture without beat-by-beat motion.", "narrative_function": "Give the city its first breath.", "visual_function": "Transition from State A to the membrane tension of State B.",
       "start_visual_state_id": "visual-state-origin", "end_visual_state_id": "visual-state-breath", "camera": "Slow axial approach beginning after the opening onset.",
       "action": "The mineral aperture opens as one continuous mass; a translucent membrane catches restrained amber light.", "transition": "Continue material motion through the outgoing cut.",
       "references": [{ "artifact_id": "artifact-state-origin", "controls": ["start_state", "composition"] }, { "artifact_id": "artifact-state-breath", "controls": ["end_state", "material", "style"] }],
       "provider_strategy": { "preferred_provider": "open_weight_on_modal", "fallback_strategy": "Use a manually supplied state interpolation clip.", "motion_priority": "One coherent opening action with stable geometry." },
-      "acceptance_criteria": ["Opening begins after 9.5 seconds in the master timeline.", "No particles or mechanical door parts appear."]
+      "acceptance_criteria": ["Opening begins after 9.241542 seconds in the master timeline.", "No particles or mechanical door parts appear."]
     },
     {
       "schema_version": "1.0.0", "id": "shot-03", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:20:00Z", "updated_at": "2026-08-01T12:20:00Z", "status": "locked",
-      "range": { "start_seconds": 20.5, "end_seconds": 31.5 }, "visual_score_segment_ids": ["score-03"],
+      "range": { "start_seconds": 26.099229, "end_seconds": 58.700045 }, "visual_score_segment_ids": ["score-03"],
       "musical_function": "Counter the accelerating recurrence with slower visual approach.", "narrative_function": "Show the city changing scale instead of repeating exactly.", "visual_function": "Deepen the chamber while retaining State B materials and aperture ratio.",
       "start_visual_state_id": "visual-state-breath", "end_visual_state_id": "visual-state-breath", "camera": "Axial approach decelerating toward stillness.",
       "action": "The rear wall recedes beyond plausible depth while the aperture remains almost fixed in frame.", "transition": "Match the oval aperture across the next cut.",
@@ -392,7 +393,7 @@
     },
     {
       "schema_version": "1.0.0", "id": "shot-04", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:20:00Z", "updated_at": "2026-08-01T12:20:00Z", "status": "locked",
-      "range": { "start_seconds": 31.5, "end_seconds": 42.5 }, "visual_score_segment_ids": ["score-04"],
+      "range": { "start_seconds": 58.700045, "end_seconds": 84.288435 }, "visual_score_segment_ids": ["score-04"],
       "musical_function": "Mirror one structural pressure event while withholding camera excitement.", "narrative_function": "Make stored weight deform the city inward.", "visual_function": "Perform one continuous topology fold in the mineral wall.",
       "start_visual_state_id": "visual-state-breath", "end_visual_state_id": "visual-state-breath", "camera": "Almost static observation with less than one percent forward drift.",
       "action": "One wall folds inward without seams, debris, or material change, then holds under pressure.", "transition": "Cut only after the fold has fully settled.",
@@ -402,7 +403,7 @@
     },
     {
       "schema_version": "1.0.0", "id": "shot-05", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:20:00Z", "updated_at": "2026-08-01T12:20:00Z", "status": "locked",
-      "range": { "start_seconds": 42.5, "end_seconds": 52.5 }, "visual_score_segment_ids": ["score-05"],
+      "range": { "start_seconds": 84.288435, "end_seconds": 106.486712 }, "visual_score_segment_ids": ["score-05"],
       "musical_function": "Bind the altered recurrence to the same aperture motif.", "narrative_function": "Preserve one useful mistake as the city's new memory.", "visual_function": "Let gravity fail while all Film Bible materials and proportions remain stable.",
       "start_visual_state_id": "visual-state-breath", "end_visual_state_id": "visual-state-still", "camera": "Lateral drift no faster than the prior axial approach.",
       "action": "The mineral plane becomes weightless and rotates toward vertical without breaking or shedding particles.", "transition": "Dissolve only the amber source; geometry remains continuous.",
@@ -412,7 +413,7 @@
     },
     {
       "schema_version": "1.0.0", "id": "shot-06", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:20:00Z", "updated_at": "2026-08-01T12:20:00Z", "status": "locked",
-      "range": { "start_seconds": 52.5, "end_seconds": 61.277 }, "visual_score_segment_ids": ["score-06"],
+      "range": { "start_seconds": 106.486712, "end_seconds": 120.024 }, "visual_score_segment_ids": ["score-06"],
       "musical_function": "Suspend the expected release by stopping before the score decays.", "narrative_function": "Make the changed memory irreversible.", "visual_function": "Arrive at State C, remove amber, and eliminate residual movement.",
       "start_visual_state_id": "visual-state-still", "end_visual_state_id": "visual-state-still", "camera": "Static frontal observation.",
       "action": "The membrane reaches perfect stillness and the amber source disappears; nothing replaces it.", "transition": "Hold the final frame through the end of the selected audio range.",
@@ -471,20 +472,20 @@
       "take_id": "take-shot-01-failed", "status": "complete", "failure_classes": ["timing_fail"],
       "evidence": [
         { "id": "evidence-shot-01-motion", "dimension": "musical", "range": { "start_seconds": 1.2, "end_seconds": 3.8 }, "finding": "Visible camera drift begins 6.3 seconds before the score permits motion.", "source": "local_measurement", "confidence": 0.96 },
-        { "id": "evidence-shot-01-continuity", "dimension": "visual", "range": { "start_seconds": 0, "end_seconds": 9.5 }, "finding": "Material and aperture proportions remain consistent with State A.", "source": "human", "confidence": 0.9 }
+        { "id": "evidence-shot-01-continuity", "dimension": "visual", "range": { "start_seconds": 0, "end_seconds": 9.241542 }, "finding": "Material and aperture proportions remain consistent with State A.", "source": "human", "confidence": 0.9 }
       ],
       "summary": "The take is visually strong but violates the approved suspension by moving too early; repair timing only."
     },
     {
       "schema_version": "1.0.0", "id": "review-shot-01-repaired", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:29:00Z", "updated_at": "2026-08-01T12:29:00Z",
       "take_id": "take-shot-01-repaired", "status": "complete", "failure_classes": ["accept"],
-      "evidence": [{ "id": "evidence-shot-01-fixed", "dimension": "musical", "range": { "start_seconds": 0, "end_seconds": 9.5 }, "finding": "The repaired take remains visually still through the approved suspension range.", "source": "local_measurement", "confidence": 0.97 }],
+      "evidence": [{ "id": "evidence-shot-01-fixed", "dimension": "musical", "range": { "start_seconds": 0, "end_seconds": 9.241542 }, "finding": "The repaired take remains visually still through the approved suspension range.", "source": "local_measurement", "confidence": 0.97 }],
       "summary": "Editorial repair resolves the timing failure without changing the successful visual layer."
     },
     {
       "schema_version": "1.0.0", "id": "review-shot-05-mutation", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:33:00Z", "updated_at": "2026-08-01T12:33:00Z",
       "take_id": "take-shot-05-mutation", "status": "human_review", "failure_classes": ["creative_mutation_candidate"],
-      "evidence": [{ "id": "evidence-mutation-gravity", "dimension": "creative", "range": { "start_seconds": 44, "end_seconds": 50 }, "finding": "An unintended gravity failure strengthens the memory rule while preserving material and motif invariants.", "source": "human", "confidence": 0.82 }],
+      "evidence": [{ "id": "evidence-mutation-gravity", "dimension": "creative", "range": { "start_seconds": 86, "end_seconds": 100 }, "finding": "An unintended gravity failure strengthens the memory rule while preserving material and motif invariants.", "source": "human", "confidence": 0.82 }],
       "summary": "The deviation is expressive, bounded, and eligible for a human Creative Mutation decision."
     }
   ],
@@ -492,7 +493,7 @@
     {
       "schema_version": "1.0.0", "id": "repair-shot-01-timing", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:27:00Z", "updated_at": "2026-08-01T12:29:00Z",
       "take_id": "take-shot-01-failed", "review_report_id": "review-shot-01-failed", "selected_layer": "editorial_timing",
-      "operation": "Trim the early drift and extend the stable opening frame to preserve the 9.5-second suspension.",
+      "operation": "Trim the early drift and extend the stable opening frame to preserve the 9.241542-second suspension.",
       "proposed_patch": "Remove the first 0.5 seconds of generated motion, freeze the approved initial frame, then retain the final material state.",
       "preserved_fields": ["Film Bible materials", "aperture proportions", "lighting", "camera axis"],
       "expected_effect": "Motion begins only after musical permission without regenerating the successful image content.",
@@ -544,17 +545,17 @@
   "assembly_runs": [
     {
       "schema_version": "1.0.0", "id": "assembly-fallback-cut", "project_id": "project-impossible-city", "revision": 1, "created_at": "2026-08-01T12:36:00Z", "updated_at": "2026-08-01T12:40:00Z",
-      "audio_asset_id": "audio-demo-track", "selected_range": { "start_seconds": 0, "end_seconds": 61.277 },
+      "audio_asset_id": "audio-demo-track", "selected_range": { "start_seconds": 0, "end_seconds": 120.024 },
       "clips": [
-        { "take_id": "take-shot-01-repaired", "timeline_range": { "start_seconds": 0, "end_seconds": 9.5 }, "source_range": { "start_seconds": 0, "end_seconds": 9.5 }, "operations": [{ "kind": "trim", "value": 0.5, "rationale": "Remove early drift while preserving the successful visual layer." }] },
-        { "take_id": "take-shot-02-fallback", "timeline_range": { "start_seconds": 9.5, "end_seconds": 20.5 }, "source_range": { "start_seconds": 0, "end_seconds": 11 }, "operations": [] },
-        { "take_id": "take-shot-03-fallback", "timeline_range": { "start_seconds": 20.5, "end_seconds": 31.5 }, "source_range": { "start_seconds": 0, "end_seconds": 11 }, "operations": [] },
-        { "take_id": "take-shot-04-fallback", "timeline_range": { "start_seconds": 31.5, "end_seconds": 42.5 }, "source_range": { "start_seconds": 0, "end_seconds": 11 }, "operations": [] },
-        { "take_id": "take-shot-05-mutation", "timeline_range": { "start_seconds": 42.5, "end_seconds": 52.5 }, "source_range": { "start_seconds": 0, "end_seconds": 10 }, "operations": [] },
-        { "take_id": "take-shot-06-fallback", "timeline_range": { "start_seconds": 52.5, "end_seconds": 61.277 }, "source_range": { "start_seconds": 0, "end_seconds": 8.777 }, "operations": [{ "kind": "hold", "value": 1.2, "rationale": "Preserve stillness through the final musical decay." }] }
+        { "take_id": "take-shot-01-repaired", "timeline_range": { "start_seconds": 0, "end_seconds": 9.241542 }, "source_range": { "start_seconds": 0, "end_seconds": 9.241542 }, "operations": [{ "kind": "trim", "value": 0.5, "rationale": "Remove early drift while preserving the successful visual layer." }] },
+        { "take_id": "take-shot-02-fallback", "timeline_range": { "start_seconds": 9.241542, "end_seconds": 26.099229 }, "source_range": { "start_seconds": 0, "end_seconds": 8 }, "operations": [{ "kind": "speed", "value": 0.474571, "rationale": "Extend the approved first-breath plate across the complete phrase." }] },
+        { "take_id": "take-shot-03-fallback", "timeline_range": { "start_seconds": 26.099229, "end_seconds": 58.700045 }, "source_range": { "start_seconds": 0, "end_seconds": 8 }, "operations": [{ "kind": "speed", "value": 0.245393, "rationale": "Slow the spatial recurrence in counterpoint to the long accumulation." }] },
+        { "take_id": "take-shot-04-fallback", "timeline_range": { "start_seconds": 58.700045, "end_seconds": 84.288435 }, "source_range": { "start_seconds": 3.95, "end_seconds": 4.05 }, "operations": [{ "kind": "hold", "value": 25.48839, "rationale": "Withhold camera excitement across the pressure plateau." }] },
+        { "take_id": "take-shot-05-mutation", "timeline_range": { "start_seconds": 84.288435, "end_seconds": 106.486712 }, "source_range": { "start_seconds": 0, "end_seconds": 8 }, "operations": [{ "kind": "speed", "value": 0.360388, "rationale": "Sustain the accepted gravity mutation through the altered recurrence." }] },
+        { "take_id": "take-shot-06-fallback", "timeline_range": { "start_seconds": 106.486712, "end_seconds": 120.024 }, "source_range": { "start_seconds": 7.9, "end_seconds": 8 }, "operations": [{ "kind": "hold", "value": 13.437288, "rationale": "Preserve stillness through the complete final musical decay." }] }
       ],
       "output_artifact_id": "artifact-final-fallback",
-      "validation": { "output_duration_seconds": 61.277, "expected_duration_seconds": 61.277, "drift_seconds": 0, "audio_present": true, "codec": "H.264/AAC", "black_frame_ratio": 0, "frozen_frame_ratio": 0.08 },
+      "validation": { "output_duration_seconds": 120.024, "expected_duration_seconds": 120.024, "drift_seconds": 0, "audio_present": true, "codec": "H.264/AAC", "black_frame_ratio": 0, "frozen_frame_ratio": 0.31 },
       "status": "validated"
     }
   ],

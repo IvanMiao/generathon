@@ -61,6 +61,15 @@ interface RelationshipRevisionResponse {
   protectedRecordIds: string[];
 }
 
+interface VisualScoreApprovalResponse {
+  changed: boolean;
+  projectRevision: number;
+  visualScoreStatus: "draft" | "approved" | "locked";
+  segmentCount: number;
+  approvedVisualStateCount: number;
+  generationGateReady: boolean;
+}
+
 const relationshipOptions: Array<{
   value: RelationshipMode;
   label: string;
@@ -212,6 +221,43 @@ export function VisualScoreWorkbench({
     });
   }
 
+  function approveScore() {
+    setError(null);
+    setFeedback(null);
+    startTransition(async () => {
+      try {
+        const response = await fetch(
+          `/api/projects/${encodeURIComponent(projectId)}/visual-score/approval`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              expectedProjectRevision: projectRevision,
+            }),
+          },
+        );
+        if (!response.ok) throw new Error(await responseError(response));
+
+        const result = (await response.json()) as VisualScoreApprovalResponse;
+        updateSnapshot({
+          projectRevision: result.projectRevision,
+          visualScoreStatus: result.visualScoreStatus,
+        });
+        setFeedback(
+          result.changed
+            ? `Visual Score approved with ${result.segmentCount} segments and ${result.approvedVisualStateCount} verified states. Generation gate reopened.`
+            : "The Visual Score is already approved.",
+        );
+      } catch (caught) {
+        setError(
+          caught instanceof Error
+            ? caught.message
+            : "The Visual Score could not be approved.",
+        );
+      }
+    });
+  }
+
   return (
     <div className="space-y-5">
       <Card className="overflow-hidden rounded-2xl bg-card/70">
@@ -221,7 +267,7 @@ export function VisualScoreWorkbench({
             <CheckCircle2 className="size-3.5 text-measured" aria-hidden="true" />
             Full coverage · revision {projectRevision}
           </span>
-          <span>01:01.3</span>
+          <span>02:00.0</span>
         </div>
 
         <div className="overflow-x-auto" role="region" aria-label="Visual score timeline">
@@ -279,14 +325,31 @@ export function VisualScoreWorkbench({
               Shape its relationship to the score
             </h3>
           </div>
-          <Badge variant={visualScoreStatus === "draft" ? "default" : "success"}>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant={visualScoreStatus === "draft" ? "default" : "success"}>
+              {visualScoreStatus === "draft" ? (
+                <Layers3 aria-hidden="true" />
+              ) : (
+                <ShieldCheck aria-hidden="true" />
+              )}
+              Visual Score {visualScoreStatus}
+            </Badge>
             {visualScoreStatus === "draft" ? (
-              <Layers3 aria-hidden="true" />
-            ) : (
-              <ShieldCheck aria-hidden="true" />
-            )}
-            Visual Score {visualScoreStatus}
-          </Badge>
+              <Button
+                type="button"
+                size="sm"
+                disabled={isPending || hasChanges || !coverage.valid}
+                onClick={approveScore}
+              >
+                {isPending ? (
+                  <LoaderCircle className="animate-spin" aria-hidden="true" />
+                ) : (
+                  <ShieldCheck aria-hidden="true" />
+                )}
+                {isPending ? "Approving…" : "Approve score"}
+              </Button>
+            ) : null}
+          </div>
         </header>
 
         <div className="p-5 lg:p-6">

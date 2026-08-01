@@ -693,12 +693,12 @@ function validateTimeModel(bundle: ProjectBundle, issues: DomainValidationIssue[
     );
   }
   const selectedDuration = selectedRange.end_seconds - selectedRange.start_seconds;
-  if (selectedDuration < 45 || selectedDuration > 75) {
+  if (selectedDuration < 115 || selectedDuration > 125) {
     issue(
       issues,
       "selected_range_duration_invalid",
       "project.selected_audio_range",
-      "The MVP selected audio range must be between 45 and 75 seconds.",
+      "The MVP selected audio range must be a complete two-minute work (115–125 seconds).",
     );
   }
   if (!near(bundle.project.target_duration_seconds, selectedDuration)) {

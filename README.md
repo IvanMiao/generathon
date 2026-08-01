@@ -42,6 +42,10 @@ Open <http://localhost:3000>. Startup creates ignored `data/`, `artifacts/`,
 `data/generathon.sqlite3`. The rights-cleared demo music already lives under
 `exports/` in the working copy and remains ignored.
 
+When the canonical demo fixture advances, startup upgrades only the known demo
+record. The 120-second fixture migration replaces the obsolete 61-second demo;
+later edits made against the current fixture revision are preserved on reload.
+
 ## Commands
 
 ```bash
@@ -68,6 +72,7 @@ environment or cache is intentionally placed under `/tmp`.
 - `GET /api/demo/media/:asset` — allowlisted local score/take streaming with byte ranges
 - `GET|POST /api/projects/:projectId/assembly` — inspect or rebuild the deterministic local export
 - `PATCH /api/projects/:projectId/visual-score/:segmentId/relationship` — validated score revision
+- `POST /api/projects/:projectId/visual-score/approval` — approve a valid full-range score and reopen generation
 - `POST /api/projects/:projectId/review/decision` — persisted repair/lock walkthrough decision
 
 The page itself reads server modules directly. These endpoints are for probes,

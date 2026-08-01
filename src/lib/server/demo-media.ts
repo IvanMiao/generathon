@@ -14,7 +14,7 @@ export const DEMO_MEDIA_ASSETS = {
     mimeType: "video/mp4",
   },
   assembly: {
-    relativePath: "exports/impossible-city-deterministic-v1.mp4",
+    relativePath: "exports/impossible-city-deterministic-120s-v1.mp4",
     mimeType: "video/mp4",
   },
 } as const;

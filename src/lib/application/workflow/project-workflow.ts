@@ -23,6 +23,7 @@ export type WorkflowErrorCode =
   | "visual_score_segment_not_found"
   | "visual_score_locked"
   | "visual_score_revision_invalid"
+  | "visual_score_approval_invalid"
   | "workflow_prerequisite_missing";
 
 export class ProjectWorkflowError extends Error {
@@ -49,6 +50,8 @@ export interface ReviseRelationshipInput extends WorkflowMutationBase {
   segmentId: string;
   relationshipMode: RelationshipMode;
 }
+
+export type ApproveVisualScoreInput = WorkflowMutationBase;
 
 export interface RecordReviewActionInput extends WorkflowMutationBase {
   action: "apply_repair" | "lock_take" | "reset";
@@ -183,6 +186,93 @@ export class ProjectWorkflowService {
       input.expectedProjectRevision,
     );
     return this.relationshipResult(saved, input.segmentId, true);
+  }
+
+  approveVisualScore(input: ApproveVisualScoreInput) {
+    const current = this.requireCurrentBundle(input);
+    const selectedTreatment = current.director_treatments.find(
+      (treatment) => treatment.id === current.project.active_treatment_id,
+    );
+    const filmBible = current.film_bibles.find(
+      (bible) => bible.treatment_id === selectedTreatment?.id,
+    );
+    const currentContract = current.audiovisual_contracts.find(
+      (contract) => contract.film_bible_id === filmBible?.id,
+    );
+    if (!currentContract) {
+      throw new ProjectWorkflowError(
+        "visual_score_approval_invalid",
+        "The active direction has no Audiovisual Contract to approve.",
+        422,
+      );
+    }
+    if (currentContract.status === "locked") {
+      throw new ProjectWorkflowError(
+        "visual_score_locked",
+        "The Visual Score is already locked and cannot change approval state.",
+        409,
+      );
+    }
+    if (currentContract.status === "approved") {
+      return this.approvalResult(current, currentContract.id, false);
+    }
+
+    const scoreSegments = current.visual_score_segments.filter(
+      (segment) =>
+        segment.audiovisual_contract_id === currentContract.id,
+    );
+    const referencedStateIds = new Set(
+      scoreSegments.flatMap((segment) => segment.visual_state_ids),
+    );
+    const unavailableStateIds = [...referencedStateIds].filter((stateId) => {
+      const state = current.visual_states.find(
+        (candidate) => candidate.id === stateId,
+      );
+      return !state || (state.status !== "approved" && state.status !== "locked");
+    });
+    if (scoreSegments.length < 5 || unavailableStateIds.length > 0) {
+      throw new ProjectWorkflowError(
+        "visual_score_approval_invalid",
+        unavailableStateIds.length > 0
+          ? `Approve every referenced Visual State first: ${unavailableStateIds.join(", ")}.`
+          : "A complete five-to-seven-segment Visual Score is required before approval.",
+        422,
+      );
+    }
+
+    const now = this.now();
+    const next = structuredClone(current);
+    const nextContract = next.audiovisual_contracts.find(
+      (contract) => contract.id === currentContract.id,
+    );
+    if (!nextContract) {
+      throw new ProjectWorkflowError(
+        "visual_score_approval_invalid",
+        "The Audiovisual Contract disappeared during approval.",
+        422,
+      );
+    }
+    nextContract.status = "approved";
+    nextContract.revision += 1;
+    nextContract.updated_at = now;
+    if (
+      [
+        "draft",
+        "audio_analyzed",
+        "music_reading_ready",
+        "treatment_selected",
+        "direction_locked",
+      ].includes(next.project.creative_state)
+    ) {
+      next.project.creative_state = "score_approved";
+    }
+    advanceProjectRevision(next, now);
+
+    const saved = this.repository.replaceProjectBundle(
+      parseProjectBundle(next),
+      input.expectedProjectRevision,
+    );
+    return this.approvalResult(saved, currentContract.id, true);
   }
 
   recordReviewAction(input: RecordReviewActionInput) {
@@ -335,6 +425,37 @@ export class ProjectWorkflowService {
       },
       affectedShotIds,
       protectedRecordIds: impact.protected_record_ids,
+    };
+  }
+
+  private approvalResult(
+    bundle: ProjectBundle,
+    contractId: string,
+    changed: boolean,
+  ) {
+    const contract = bundle.audiovisual_contracts.find(
+      (candidate) => candidate.id === contractId,
+    );
+    const segments = bundle.visual_score_segments.filter(
+      (segment) => segment.audiovisual_contract_id === contractId,
+    );
+    const referencedStateIds = new Set(
+      segments.flatMap((segment) => segment.visual_state_ids),
+    );
+
+    return {
+      changed,
+      projectRevision: bundle.project.revision,
+      visualScoreStatus: contract?.status ?? "draft",
+      segmentCount: segments.length,
+      approvedVisualStateCount: [...referencedStateIds].filter((stateId) => {
+        const state = bundle.visual_states.find(
+          (candidate) => candidate.id === stateId,
+        );
+        return state?.status === "approved" || state?.status === "locked";
+      }).length,
+      generationGateReady:
+        contract?.status === "approved" || contract?.status === "locked",
     };
   }
 

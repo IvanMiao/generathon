@@ -59,7 +59,7 @@ Candidate segmentation is deliberately heuristic. Raw measurements are immutable
 | Rights | Creator explicitly confirmed no copyright issue and public-demo use |
 | Rights record | `docs/rights/demo-track.md` |
 | Embedded metadata | No ID3 title, artist, or rights fields |
-| Provisional demo range | 0.000–61.277 seconds |
+| Locked demo range | 0.000–120.024 seconds (complete generated score) |
 
 Full-track MIR results:
 
@@ -70,9 +70,9 @@ Full-track MIR results:
 | Onsets | 793 |
 | RMS mean | 0.147116 |
 | Spectral-centroid mean | 1396.433 Hz |
-| Candidate boundaries | 0.000, 26.099, 61.277, 106.487, 120.024 seconds |
+| Candidate boundaries | 0.000, 9.242, 26.099, 58.700, 106.487, 120.024 seconds |
 
-The 0–61.277 second range is a technical candidate, not a locked edit. Listening and directorial review can move the in/out points.
+The earlier 0–61.277 second technical candidate was superseded by the creator's decision to use the complete 0–120.024 second score for both music and picture.
 
 The rights declaration permits production use. It does not by itself authorize sending the file to an external API, so the Gemini semantic-audio request remains pending explicit upload permission.
 

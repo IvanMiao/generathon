@@ -20,7 +20,7 @@ selected track
   → final short
 ```
 
-The primary submission is the tool. A 45–75 second strongly stylized electronic-music short is the proof that the tool can listen, direct, preserve a visual world, diagnose a beautiful-but-wrong take, and repair the correct layer.
+The primary submission is the tool. A complete two-minute strongly stylized electronic-music short is the proof that the tool can listen, direct, preserve a visual world, diagnose a beautiful-but-wrong take, and repair the correct layer.
 
 ## 2. Delivery Rules
 
@@ -40,7 +40,7 @@ The primary submission is the tool. A 45–75 second strongly stylized electroni
 
 The build is successful only if a preloaded or newly created project can complete these steps:
 
-1. Attach a rights-cleared 45–75 second electronic track or selected range.
+1. Attach the rights-cleared two-minute electronic track and select its complete 120.024-second range.
 2. Display locally measured waveform/energy, tempo estimate, beats/onsets, candidate sections, and confidence.
 3. Edit at least one section boundary without corrupting the analysis record.
 4. Display a structured Music Reading separately from measured data.
@@ -355,7 +355,11 @@ model call. Visual Score relationship revisions, linked ShotSpec inspection,
 optimistic concurrency, and persisted repair/lock decisions are implemented.
 Full-track local MusicAnalysis and deterministic locked-take assembly are now
 implemented. The export restores the original audio, validates duration and
-streams, and writes a provenance manifest. See `docs/STEP_3_VERTICAL_SLICE.md`.
+streams, and writes a provenance manifest. Real provider-derived Visual State
+keyframes, downstream Treatment comparison, and deliberate Visual Score
+approval are implemented. Persisted section-boundary editing and safe
+reselection of a Treatment before direction lock remain. See
+`docs/STEP_3_VERTICAL_SLICE.md`.
 
 Build the differentiating workflow before integrating real models:
 
@@ -426,7 +430,7 @@ Run one real project from audio through assembled preview.
 
 **Target: T+15:00 to T+21:00**
 
-1. Lock the selected 45–75 second audio range.
+1. Lock the complete 120.024-second audio range.
 2. Produce three concise Treatments; choose one and preserve an alternative for the demo.
 3. Lock a Film Bible with a deliberately small visual vocabulary.
 4. Approve five to seven Visual Score segments.
@@ -846,7 +850,7 @@ Do not cut:
 
 ### Companion film
 
-- The film is 45–75 seconds and complete.
+- The film covers the complete two-minute score and is 120.024 seconds in the demo master.
 - It has a recognizable world, limited material vocabulary, and controlled camera grammar.
 - It includes at least one non-literal music-image relationship.
 - It does not resemble a template visualizer or a collection of unrelated AI clips.

@@ -8,7 +8,7 @@
   "record_id": null,
   "explicitly_reopened": false,
   "mutations": [
-    { "op": "replace", "path": "/music_analyses/0/events/0/time_seconds", "value": 80 }
+    { "op": "replace", "path": "/music_analyses/0/events/0/time_seconds", "value": 121 }
   ],
   "expected_issue_codes": ["timestamp_out_of_range"]
 }

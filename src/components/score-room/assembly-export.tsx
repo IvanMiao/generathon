@@ -27,12 +27,12 @@ interface AssemblyExportProps {
 }
 
 const assemblyOperations = [
-  { range: "00:00.000–00:09.500", operation: "Stretch", source: "Paper city / origin" },
-  { range: "00:09.500–00:20.500", operation: "Stretch", source: "First breath" },
-  { range: "00:20.500–00:31.500", operation: "Stretch", source: "Remembered return" },
-  { range: "00:31.500–00:42.500", operation: "Hold", source: "Pressure counterpoint" },
-  { range: "00:42.500–00:52.500", operation: "Stretch", source: "Creative mutation" },
-  { range: "00:52.500–01:01.277", operation: "Hold", source: "Withheld release" },
+  { range: "00:00.000–00:09.242", operation: "Stretch", source: "Paper city / origin" },
+  { range: "00:09.242–00:26.099", operation: "Stretch", source: "First breath" },
+  { range: "00:26.099–00:58.700", operation: "Stretch", source: "Remembered return" },
+  { range: "00:58.700–01:24.288", operation: "Hold", source: "Pressure counterpoint" },
+  { range: "01:24.288–01:46.487", operation: "Stretch", source: "Creative mutation" },
+  { range: "01:46.487–02:00.024", operation: "Hold", source: "Withheld release" },
 ] as const;
 
 export function AssemblyExport({
