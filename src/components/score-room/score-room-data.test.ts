@@ -14,7 +14,7 @@ describe("Score Room fixture projection", () => {
     expect(formatDomainLabel("motif_binding")).toBe("Motif binding");
     expect(formatTimestamp(0)).toBe("00:00");
     expect(formatTimestamp(9.51)).toBe("00:09.5");
-    expect(formatTimestamp(61.277)).toBe("01:01.3");
+    expect(formatTimestamp(120.024)).toBe("02:00");
   });
 
   it("keeps measured analysis separate from interpreted reading", () => {
@@ -25,7 +25,7 @@ describe("Score Room fixture projection", () => {
     expect(view.measuredMusic.analysisId).not.toBe(
       view.interpretedMusic.readingId,
     );
-    expect(view.measuredMusic.sections).toHaveLength(4);
+    expect(view.measuredMusic.sections).toHaveLength(5);
     expect(view.interpretedMusic.sections).toHaveLength(6);
     expect(view.measuredMusic.sourceDescription).toMatch(/deterministic/i);
     expect(view.interpretedMusic.sourceDescription).toMatch(/interpretation/i);

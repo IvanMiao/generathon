@@ -17,9 +17,9 @@ ffmpeg \
   -loglevel error \
   -y \
   -i "$input" \
-  -filter_complex "[0:v]trim=start=0:end=0.042,setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration=0.5[first];[0:v]trim=start=0.5:end=9.5,setpts=PTS-STARTPTS[retained];[first][retained]concat=n=2:v=1:a=0,format=yuv420p[video]" \
+  -filter_complex "[0:v]trim=start=0:end=0.042,setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration=0.5[first];[0:v]trim=start=0.5:end=9.199542,setpts=PTS-STARTPTS[retained];[first][retained]concat=n=2:v=1:a=0,format=yuv420p[video]" \
   -map "[video]" \
-  -t 9.5 \
+  -t 9.241542 \
   -an \
   -c:v libx264 \
   -preset medium \

@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0.0",
-  "id": "assembly-impossible-city-deterministic-v1",
+  "id": "assembly-impossible-city-deterministic-120s-v1",
   "project_id": "project-impossible-city",
   "audio": {
     "relative_path": "exports/original-melodic-electronica-120s.mp3",
     "sha256": "527626c6d33c5d0325da00f9b5ddefb1b7ff6941c8502ebdb0735fb120ca684a",
-    "selected_range": { "start_seconds": 0, "end_seconds": 61.277 }
+    "selected_range": { "start_seconds": 0, "end_seconds": 120.024 }
   },
   "output": {
-    "relative_path": "exports/impossible-city-deterministic-v1.mp4",
-    "manifest_relative_path": "exports/impossible-city-deterministic-v1.manifest.json",
+    "relative_path": "exports/impossible-city-deterministic-120s-v1.mp4",
+    "manifest_relative_path": "exports/impossible-city-deterministic-120s-v1.manifest.json",
     "width": 1280,
     "height": 720,
     "fps": 24,
@@ -25,7 +25,7 @@
       "relative_path": "artifacts/sora-pro-complex-shot-002-take-001.mp4",
       "sha256": "e32836616d7b6523ffe1e3c5fada348ed4712ba5b42f981eaedd1fe599095d7b",
       "source_range": { "start_seconds": 0, "end_seconds": 8 },
-      "timeline_range": { "start_seconds": 0, "end_seconds": 9.5 },
+      "timeline_range": { "start_seconds": 0, "end_seconds": 9.241542 },
       "operation": "stretch"
     },
     {
@@ -36,7 +36,7 @@
       "relative_path": "artifacts/sora-complex-shot-002-take-001.mp4",
       "sha256": "97200fe17ba26c82b76cc45909f8a6b9090259eb5bf0c35ec7c1872dcd9b91cb",
       "source_range": { "start_seconds": 0, "end_seconds": 8 },
-      "timeline_range": { "start_seconds": 9.5, "end_seconds": 20.5 },
+      "timeline_range": { "start_seconds": 9.241542, "end_seconds": 26.099229 },
       "operation": "stretch"
     },
     {
@@ -47,7 +47,7 @@
       "relative_path": "artifacts/omni-complex-shot-002-take-001.mp4",
       "sha256": "a9921a5b7909a7cc3888ff4b8b27bb13906f39c4a1f7c7b39a1caecd38c4a175",
       "source_range": { "start_seconds": 0, "end_seconds": 8 },
-      "timeline_range": { "start_seconds": 20.5, "end_seconds": 31.5 },
+      "timeline_range": { "start_seconds": 26.099229, "end_seconds": 58.700045 },
       "operation": "stretch"
     },
     {
@@ -58,7 +58,7 @@
       "relative_path": "artifacts/sora-pro-complex-shot-002-take-001.mp4",
       "sha256": "e32836616d7b6523ffe1e3c5fada348ed4712ba5b42f981eaedd1fe599095d7b",
       "source_range": { "start_seconds": 3.95, "end_seconds": 4.05 },
-      "timeline_range": { "start_seconds": 31.5, "end_seconds": 42.5 },
+      "timeline_range": { "start_seconds": 58.700045, "end_seconds": 84.288435 },
       "operation": "hold"
     },
     {
@@ -69,7 +69,7 @@
       "relative_path": "artifacts/veo-complex-shot-002-take-001.mp4",
       "sha256": "b2766c21d57994ba705650919f6b6d06d6a4a5da1328b2a8fd78c0f858584e4c",
       "source_range": { "start_seconds": 0, "end_seconds": 8 },
-      "timeline_range": { "start_seconds": 42.5, "end_seconds": 52.5 },
+      "timeline_range": { "start_seconds": 84.288435, "end_seconds": 106.486712 },
       "operation": "stretch"
     },
     {
@@ -80,7 +80,7 @@
       "relative_path": "artifacts/veo-complex-shot-002-take-001.mp4",
       "sha256": "b2766c21d57994ba705650919f6b6d06d6a4a5da1328b2a8fd78c0f858584e4c",
       "source_range": { "start_seconds": 7.9, "end_seconds": 8 },
-      "timeline_range": { "start_seconds": 52.5, "end_seconds": 61.277 },
+      "timeline_range": { "start_seconds": 106.486712, "end_seconds": 120.024 },
       "operation": "hold"
     }
   ]

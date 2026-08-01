@@ -11,14 +11,17 @@ through `ProjectRepository`; it does not call a model or fetch the app's own API
 - homepage entry into the working Score Room;
 - complete 120.024-second playback of the rights-cleared score through an
   allowlisted, byte-range-capable local media route;
-- real deterministic full-track Music Analysis with the 61.277-second current
-  cut visibly selected, plus a separate editable Music Reading for that cut;
-- three structurally distinct Treatments and the locked Film Bible;
-- three Visual States, six full-coverage Visual Score segments, and six locked
+- real deterministic full-track Music Analysis with the complete 120.024-second
+  score selected, plus a separate editable Music Reading for the same range;
+- three structurally distinct Treatments, a downstream-direction comparison
+  preview, and the locked active Film Bible;
+- three approved real provider-derived keyframes, six full-coverage Visual Score segments, and six locked
   ShotSpecs with musical, narrative, and visual functions;
 - an editable relationship mode for every Visual Score segment; saving creates
   a sequential score/project revision, reopens the score as draft, reruns full
   bundle coverage validation, and reports protected locked dependents;
+- an explicit Visual Score approval action that requires valid coverage and
+  approved linked Visual States before reopening the generation gate;
 - a focused ShotSpec inspector linked directly from each score segment;
 - a recorded failed-take preview with timestamped evidence;
 - an interactive Editorial Repair → compare → lock walkthrough whose human
@@ -29,7 +32,7 @@ through `ProjectRepository`; it does not call a model or fetch the app's own API
   through a generation gate summary without submitting it;
 - quota visibility and a disabled regeneration path for the timing-only failure;
 - concise rights, measurement, direction, and assembly provenance;
-- deterministic FFmpeg preparation of the 9.5-second repaired comparison clip;
+- deterministic FFmpeg preparation of the 9.241542-second repaired comparison clip;
 - deterministic six-clip H.264/AAC assembly from verified local inputs, with
   stretch/hold operations, restored original audio, duration/stream validation,
   playable Web preview, and a SHA-256 provenance manifest.
@@ -49,10 +52,12 @@ assembly uses verified existing takes and writes ignored outputs under `exports/
 
 ## Remaining Step 3 work
 
-1. Replace placeholder Visual State artwork with approved real keyframes.
-2. Add an explicit Visual Score approval action after a relationship revision,
-   so the generation gate can be reopened deliberately.
+1. Make at least one measured section-boundary correction editable and persist
+   it as a `MusicAnalysisRevision` without mutating the measured analysis.
+2. Add a deliberate treatment-reselection workflow for an unlocked direction;
+   the current rough cut only previews alternatives so locked downstream work is
+   not silently replaced.
 
-The next vertical slice is approved real Visual States plus explicit score
-approval. Real model integration remains behind the now-persisted offline
+The next vertical slice is section-boundary editing plus safe treatment
+reselection. Real model integration remains behind the now-persisted offline
 direction, review, and deterministic export paths.

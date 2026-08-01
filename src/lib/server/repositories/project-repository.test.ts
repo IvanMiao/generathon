@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   importCanonicalProjectBundle,
   loadCanonicalProjectBundle,
+  resolveCanonicalProjectBundle,
 } from "@/lib/server/fixtures/canonical-project";
 import {
   ProjectBundleIntegrityError,
@@ -89,6 +90,67 @@ describe("ProjectRepository", () => {
     expect(second).toEqual(first);
     expect(countRows(databasePath, "projects")).toBe(1);
     expect(countRows(databasePath, "project_bundles")).toBe(1);
+  });
+
+  it("upgrades a legacy demo bundle that no longer satisfies the duration contract", () => {
+    const { databasePath, repository } = createRepository();
+    const canonical = importCanonicalProjectBundle(repository);
+    const legacyDocument = JSON.stringify({
+      ...canonical,
+      fixture_id: "fixture-impossible-city-demo-v1",
+      project: {
+        ...canonical.project,
+        selected_audio_range: { start_seconds: 0, end_seconds: 61.277 },
+        target_duration_seconds: 61.277,
+      },
+      audio_assets: canonical.audio_assets.map((audioAsset) =>
+        audioAsset.id === canonical.project.selected_audio_asset_id
+          ? {
+              ...audioAsset,
+              duration_seconds: 61.277,
+              selected_range: { start_seconds: 0, end_seconds: 61.277 },
+            }
+          : audioAsset,
+      ),
+    });
+    const legacyChecksum = createHash("sha256")
+      .update(legacyDocument)
+      .digest("hex");
+    const database = new DatabaseSync(databasePath);
+    database
+      .prepare(`
+        UPDATE project_bundles
+        SET document_json = ?, checksum = ?
+        WHERE project_id = ?
+      `)
+      .run(legacyDocument, legacyChecksum, canonical.project.id);
+    database.close();
+
+    const resolved = resolveCanonicalProjectBundle(
+      repository,
+      canonical.project.id,
+    );
+
+    expect(resolved.project.target_duration_seconds).toBe(120.024);
+    expect(repository.getProjectBundle(canonical.project.id)).toEqual(resolved);
+  });
+
+  it("preserves workflow changes after the current canonical fixture is installed", () => {
+    const { repository } = createRepository();
+    const canonical = importCanonicalProjectBundle(repository);
+    const edited = structuredClone(canonical);
+    edited.project.revision += 1;
+    edited.project.updated_at = "2026-08-01T13:00:00Z";
+    edited.project.title = "Keep this workspace edit";
+    repository.replaceProjectBundle(edited, canonical.project.revision);
+
+    const resolved = resolveCanonicalProjectBundle(
+      repository,
+      canonical.project.id,
+    );
+
+    expect(resolved.project.revision).toBe(2);
+    expect(resolved.project.title).toBe("Keep this workspace edit");
   });
 
   it("reads validated bundles and lists validated project summaries", () => {

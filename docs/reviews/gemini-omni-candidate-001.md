@@ -45,4 +45,4 @@ Observed risks:
 
 **Retain in the final-cut candidate pool; do not lock yet.**
 
-Audition it against the selected 0–61.277 second range after the Music Reading and Visual Score are approved. Prefer deterministic trim/hold/cut before spending another video call. Strip or mute its native audio during assembly and preserve the original music unchanged.
+Audition it against the complete 0–120.024 second range after the Music Reading and Visual Score are approved. Prefer deterministic trim/hold/cut before spending another video call. Strip or mute its native audio during assembly and preserve the original music unchanged.

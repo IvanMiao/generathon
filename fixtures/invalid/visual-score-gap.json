@@ -8,7 +8,7 @@
   "record_id": null,
   "explicitly_reopened": false,
   "mutations": [
-    { "op": "replace", "path": "/visual_score_segments/2/range/start_seconds", "value": 21.5 }
+    { "op": "replace", "path": "/visual_score_segments/2/range/start_seconds", "value": 27.099229 }
   ],
   "expected_issue_codes": ["visual_score_gap"]
 }

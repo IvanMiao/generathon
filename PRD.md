@@ -5,7 +5,7 @@
 | Product category | Score-to-cinema AI directing tool for electronic music and auteur visual shorts |
 | Core promise | Turn a selected track and an artistic premise into an editable audiovisual direction, then generate, review, and repair a coherent short film |
 | Primary users | Electronic musicians, audiovisual artists, AI filmmakers, creative directors, and small visual studios |
-| Companion work | A 45–75 second, dialogue-light, strongly stylized electronic-music short |
+| Companion work | A complete two-minute, dialogue-light, strongly stylized electronic-music short |
 | Primary track | Tools for AI Artists; the companion film is proof of the tool's direction system |
 | Product language | English for UI, schemas, logs, exports, repository, and demo; creative source input may use any language |
 | Hackathon constraints | 29 hours; public GitHub repository; explanation and demo video no longer than 2 minutes |
@@ -314,7 +314,7 @@ Users can edit boundaries and labels, select relationship modes, and see why eac
 
 | Capability | Requirement |
 | --- | --- |
-| Project and audio setup | Upload one rights-cleared track, choose a 45–75 second range, set aspect ratio, premise, and references |
+| Project and audio setup | Upload the rights-cleared two-minute track, use its complete range, and set aspect ratio, premise, and references |
 | Measured music analysis | Produce waveform data, energy, tempo estimate, beats/onsets, candidate sections, events, and confidence; allow edits |
 | Music Reading | Generate a structured, timestamped interpretation while preserving measured/interpreted separation |
 | Director Treatments | Produce at least two distinct propositions, with three as the target; approve one Film Bible |
@@ -356,7 +356,7 @@ Users can edit boundaries and labels, select relationship modes, and see why eac
 
 The MVP succeeds only if all of the following are true:
 
-1. A real 45–75 second rights-cleared electronic track enters the product and produces an editable measured analysis.
+1. The complete real two-minute rights-cleared electronic track enters the product and produces an editable measured analysis.
 2. Measured values and Gemini's Music Reading are visibly separated.
 3. The project contains at least two materially different Director Treatments for the same track; three is the target.
 4. The approved Visual Score covers the full range with no gaps or overlaps and uses at least one `counterpoint` or `suspension` segment.
@@ -502,7 +502,7 @@ Each module must work against fixtures when network credentials are missing.
 
 ### 16.1 Format
 
-- 45–75 seconds;
+- the complete two-minute score (120.024 seconds in the demo master);
 - electronic, cinematic, restrained, progressively structured music;
 - dialogue-light or wordless;
 - five to seven shots;
@@ -546,7 +546,7 @@ After the hackathon, test the product with 5–8 participants: at least three el
 
 Tasks:
 
-1. Upload a 45–60 second track and correct the proposed structure.
+1. Upload a complete two-minute track and correct the proposed structure.
 2. Compare three Treatments and explain their differences without facilitator help.
 3. Modify one audiovisual relationship from mirror to suspension or counterpoint.
 4. Identify why one ShotSpec exists in musical, narrative, and visual terms.
@@ -580,7 +580,7 @@ These are validation targets, not current evidence.
 | OpenAI video backend disappears | Keep it transition-only and compile all work from provider-neutral ShotSpecs |
 | Modal cold start or weight load is too slow | Pin weights in a Modal Volume, load once per container, use asynchronous jobs, and retain Gemini/manual fallbacks |
 | Open-weight license is incompatible with launch | Record the exact checkpoint and license; complete legal review before commercial deployment |
-| 29 hours is insufficient | Limit the film to 45–75 seconds, five to seven shots, one complete workflow, one provider or manual import |
+| 29 hours is insufficient | Keep the complete two-minute film but limit it to five to seven shots, one complete workflow, one provider or manual import |
 | Credentials or provider queues fail | Fixture-first app, preloaded demo project, manual generation/import, locally assembled final film |
 | Copyright or style imitation risk | Use rights-cleared music/assets and describe formal qualities rather than named-artist imitation prompts |
 | Aesthetic judgment is presented as objective | Separate mechanical facts, contract compliance, and human taste |
@@ -616,7 +616,7 @@ These are validation targets, not current evidence.
 ### Assumptions
 
 1. The hackathon submission is the tool; the short is its strongest proof.
-2. The demo can use a 45–75 second excerpt rather than a full song.
+2. The demo uses the complete 120.024-second song and the film must cover the same full range.
 3. The ElevenLabs-generated electronic demo track is rights-cleared by creator declaration.
 4. Gemini is the verified managed path, but every AI step still requires a recorded fixture path for offline rehearsal.
 5. Open-weight inference runs on Modal rather than the local development machine.

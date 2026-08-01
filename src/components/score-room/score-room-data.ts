@@ -112,6 +112,9 @@ export function createScoreRoomProjection(
   const visualStateById = new Map(
     bundle.visual_states.map((state) => [state.id, state]),
   );
+  const artifactById = new Map(
+    bundle.artifacts.map((artifact) => [artifact.id, artifact]),
+  );
 
   const scoreSegments = bundle.visual_score_segments
     .filter(
@@ -473,6 +476,11 @@ export function createScoreRoomProjection(
         selected: treatment.id === selectedTreatment.id,
         proposition: treatment.proposition,
         structuralStrategy: treatment.structural_strategy,
+        narrativePath: treatment.narrative_path.map((beat) => ({
+          id: beat.id,
+          rangeLabel: formatTimeRange(beat.range),
+          description: beat.description,
+        })),
         visualWorld: treatment.visual_world,
         musicInterpretation: treatment.music_interpretation,
         rationale: treatment.rationale,
@@ -512,19 +520,39 @@ export function createScoreRoomProjection(
       })),
       forbiddenRelationships: audiovisualContract.forbidden_relationships,
     },
-    visualStates: bundle.visual_states.map((state, index) => ({
-      id: state.id,
-      number: String(index + 1).padStart(2, "0"),
-      status: state.status,
-      statusLabel: formatDomainLabel(state.status),
-      name: state.name,
-      worldState: state.world_state,
-      subjectState: state.subject_state,
-      composition: state.composition,
-      material: state.material,
-      light: state.light,
-      camera: state.camera,
-    })),
+    visualStates: bundle.visual_states.map((state, index) => {
+      const reference = state.reference_artifact_ids
+        .map((id) => artifactById.get(id))
+        .find((artifact) => artifact?.kind === "image");
+      if (!reference) {
+        throw new Error(
+          `Score Room fixture is missing an image reference for visual state ${state.id}.`,
+        );
+      }
+      if (!reference.relative_path.startsWith("public/")) {
+        throw new Error(
+          `Visual State reference ${reference.id} must be served from public/.`,
+        );
+      }
+
+      return {
+        id: state.id,
+        number: String(index + 1).padStart(2, "0"),
+        status: state.status,
+        statusLabel: formatDomainLabel(state.status),
+        name: state.name,
+        worldState: state.world_state,
+        subjectState: state.subject_state,
+        composition: state.composition,
+        material: state.material,
+        light: state.light,
+        camera: state.camera,
+        imageSrc: `/${reference.relative_path.slice("public/".length)}`,
+        imageAlt: `${state.name}: ${state.composition}`,
+        referenceSha256: reference.sha256,
+        referenceSource: formatDomainLabel(reference.provenance.source),
+      };
+    }),
     scoreSegments,
     timelineColumns: scoreSegments
       .map((segment) => `${segment.durationSeconds.toFixed(3)}fr`)

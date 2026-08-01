@@ -35,7 +35,7 @@ describe("deterministic assembly plan", () => {
     const filter = buildAssemblyFilter(plan);
     const args = buildFfmpegArguments(plan, process.cwd(), "/tmp/output.mp4");
 
-    expect(filter).toContain("[0:a]atrim=start=0:end=61.277");
+    expect(filter).toContain("[0:a]atrim=start=0:end=120.024");
     expect(filter).toContain("concat=n=6:v=1:a=0[vout]");
     expect(args).toContain("[aout]");
     expect(args).not.toContain("1:a");

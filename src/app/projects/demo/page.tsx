@@ -4,7 +4,7 @@ import { createScoreRoomProjection } from "@/components/score-room/score-room-da
 import type { WorkspaceView } from "@/components/score-room/workspace-navigation";
 import { readDemoMusicAnalysis } from "@/lib/server/demo-music-analysis";
 import { readDemoAssemblySnapshot } from "@/lib/server/deterministic-assembly";
-import { importCanonicalProjectBundle } from "@/lib/server/fixtures/canonical-project";
+import { resolveCanonicalProjectBundle } from "@/lib/server/fixtures/canonical-project";
 import { ProjectRepository } from "@/lib/server/repositories/project-repository";
 import { ensureRuntimeReady } from "@/lib/server/runtime";
 
@@ -39,9 +39,11 @@ export default async function DemoScoreRoomPage({
     : "score";
   const runtime = ensureRuntimeReady();
   const repository = new ProjectRepository(runtime.databasePath);
-  const bundle =
-    repository.getProjectBundle(DEMO_PROJECT_ID) ??
-    importCanonicalProjectBundle(repository, runtime.rootDir);
+  const bundle = resolveCanonicalProjectBundle(
+    repository,
+    DEMO_PROJECT_ID,
+    runtime.rootDir,
+  );
   const scoreRoom = createScoreRoomProjection(
     bundle,
     readDemoMusicAnalysis(runtime.rootDir) ?? undefined,

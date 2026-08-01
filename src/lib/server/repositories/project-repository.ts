@@ -1,6 +1,9 @@
 import { createHash } from "node:crypto";
 import type { Project, ProjectBundle } from "@/lib/domain/project";
-import { parseProjectBundle } from "@/lib/domain/validation";
+import {
+  type DomainValidationIssue,
+  parseProjectBundle,
+} from "@/lib/domain/validation";
 import {
   initializeDatabase,
   openDatabase,
@@ -29,10 +32,27 @@ export interface ProjectSummary {
 }
 
 export class ProjectBundleIntegrityError extends Error {
-  constructor(projectId: string, reason: string) {
+  constructor(
+    readonly projectId: string,
+    readonly reason: string,
+    readonly validationIssues: DomainValidationIssue[] = [],
+  ) {
     super(`Stored project bundle "${projectId}" failed integrity validation: ${reason}`);
     this.name = "ProjectBundleIntegrityError";
   }
+}
+
+export function isProjectBundleIntegrityError(
+  error: unknown,
+): error is ProjectBundleIntegrityError {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "name" in error &&
+    error.name === "ProjectBundleIntegrityError" &&
+    "validationIssues" in error &&
+    Array.isArray(error.validationIssues)
+  );
 }
 
 export class ProjectBundleRevisionConflictError extends Error {
@@ -59,6 +79,29 @@ function checksum(documentJson: string): string {
   return createHash("sha256").update(documentJson).digest("hex");
 }
 
+function readDomainValidationIssues(error: unknown): DomainValidationIssue[] {
+  if (
+    typeof error !== "object" ||
+    error === null ||
+    !("issues" in error) ||
+    !Array.isArray(error.issues)
+  ) {
+    return [];
+  }
+
+  return error.issues.filter(
+    (issue): issue is DomainValidationIssue =>
+      typeof issue === "object" &&
+      issue !== null &&
+      "code" in issue &&
+      typeof issue.code === "string" &&
+      "path" in issue &&
+      typeof issue.path === "string" &&
+      "message" in issue &&
+      typeof issue.message === "string",
+  );
+}
+
 function parseStoredBundle(row: StoredProjectBundle): ProjectBundle {
   if (checksum(row.document_json) !== row.checksum) {
     throw new ProjectBundleIntegrityError(row.project_id, "checksum mismatch");
@@ -78,6 +121,7 @@ function parseStoredBundle(row: StoredProjectBundle): ProjectBundle {
     throw new ProjectBundleIntegrityError(
       row.project_id,
       error instanceof Error ? error.message : "contract validation failed",
+      readDomainValidationIssues(error),
     );
   }
 

@@ -214,7 +214,7 @@ export default function Home() {
                     </h2>
                   </div>
                   <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
-                    00:21.4 / 01:01.3
+                    00:41.8 / 02:00.0
                   </span>
                 </div>
 
@@ -239,7 +239,7 @@ export default function Home() {
                   <div className="mb-2 flex justify-between font-mono text-[8px] tracking-[0.1em] text-muted-foreground uppercase">
                     <span>00:00</span>
                     <span>Image / music relationship</span>
-                    <span>01:01.3</span>
+                    <span>02:00.0</span>
                   </div>
                   <div className="flex h-20 gap-1">
                     {scoreSegments.map((segment, index) => (

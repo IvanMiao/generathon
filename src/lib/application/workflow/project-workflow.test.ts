@@ -97,6 +97,49 @@ describe("Visual Score relationship workflow", () => {
       expect.objectContaining({ code: "project_revision_conflict" }),
     );
   });
+
+  it("explicitly approves a revised score and reopens the generation gate", () => {
+    const { bundle, repository, service } = createService();
+
+    service.reviseRelationship({
+      projectId: bundle.project.id,
+      expectedProjectRevision: 1,
+      segmentId: "score-04",
+      relationshipMode: "counterpoint",
+    });
+    const approved = service.approveVisualScore({
+      projectId: bundle.project.id,
+      expectedProjectRevision: 2,
+    });
+
+    expect(approved).toEqual({
+      changed: true,
+      projectRevision: 3,
+      visualScoreStatus: "approved",
+      segmentCount: 6,
+      approvedVisualStateCount: 3,
+      generationGateReady: true,
+    });
+    expect(
+      repository.getProjectBundle(bundle.project.id)?.audiovisual_contracts[0],
+    ).toMatchObject({ status: "approved", revision: 3 });
+  });
+
+  it("treats approval of an already approved score as a no-op", () => {
+    const { bundle, service } = createService();
+
+    expect(
+      service.approveVisualScore({
+        projectId: bundle.project.id,
+        expectedProjectRevision: 1,
+      }),
+    ).toMatchObject({
+      changed: false,
+      projectRevision: 1,
+      visualScoreStatus: "approved",
+      generationGateReady: true,
+    });
+  });
 });
 
 describe("Review decision workflow", () => {

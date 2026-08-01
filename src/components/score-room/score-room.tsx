@@ -1,10 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import {
   AudioLines,
   CheckCircle2,
   ChevronDown,
-  Clapperboard,
   Home,
   LockKeyhole,
   Music2,
@@ -20,6 +20,7 @@ import type { ScoreRoomProjection } from "@/components/score-room/score-room-dat
 import { ScorePlaybackProvider } from "@/components/score-room/score-playback-context";
 import { ScoreTransport } from "@/components/score-room/score-transport";
 import { ShotWorkbench } from "@/components/score-room/shot-workbench";
+import { TreatmentComparison } from "@/components/score-room/treatment-comparison";
 import { VisualScoreWorkbench } from "@/components/score-room/visual-score-workbench";
 import { WorkflowProvider } from "@/components/score-room/workflow-context";
 import {
@@ -49,12 +50,6 @@ type ViewHeaderProps = {
   title: string;
   topic: string;
 };
-
-const visualStateArt = [
-  "from-stone-500/20 via-orange-300/5 to-black",
-  "from-teal-300/15 via-stone-500/10 to-black",
-  "from-violet-300/15 via-rose-300/5 to-black",
-] as const;
 
 function ViewHeader({
   description,
@@ -208,8 +203,6 @@ function ListeningSection({ scoreRoom }: ScoreRoomProps) {
 
 function TreatmentsSection({ scoreRoom }: ScoreRoomProps) {
   const { treatments, filmBible, audiovisualContract } = scoreRoom;
-  const selectedTreatment = treatments.find((treatment) => treatment.selected)!;
-  const alternatives = treatments.filter((treatment) => !treatment.selected);
 
   return (
     <section aria-labelledby="treatments-title">
@@ -222,54 +215,7 @@ function TreatmentsSection({ scoreRoom }: ScoreRoomProps) {
         status={`${filmBible.statusLabel} Film Bible`}
       />
 
-      <Card className="rounded-2xl border-primary/25 bg-card/70">
-        <header className="flex flex-col gap-3 border-b border-border p-5 sm:flex-row sm:items-start sm:justify-between lg:p-6">
-          <div>
-            <Badge>Selected direction</Badge>
-            <h3 className="mt-3 font-display text-3xl font-normal tracking-tight text-foreground">
-              {selectedTreatment.title}
-            </h3>
-          </div>
-          <Clapperboard className="size-6 text-primary" aria-hidden="true" />
-        </header>
-        <div className="p-5 lg:p-6">
-          <p className="max-w-4xl text-base leading-7 text-foreground/90">
-            {selectedTreatment.proposition}
-          </p>
-          <dl className="mt-5 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-3">
-            {[
-              ["Structure", selectedTreatment.structuralStrategy],
-              ["Visual world", selectedTreatment.visualWorld],
-              ["Music relationship", selectedTreatment.musicInterpretation],
-            ].map(([label, value]) => (
-              <div className="bg-background/55 p-4" key={label}>
-                <dt className="text-xs font-medium text-muted-foreground">{label}</dt>
-                <dd className="mt-2 text-sm leading-6 text-foreground/90">{value}</dd>
-              </div>
-            ))}
-          </dl>
-
-          {alternatives.length > 0 ? (
-            <div className="mt-4">
-              <Disclosure label="Compare alternative treatments" meta={`${alternatives.length} alternatives`}>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {alternatives.map((treatment) => (
-                    <article className="rounded-xl border border-border bg-card/60 p-4" key={treatment.id}>
-                      <div className="flex items-center justify-between gap-3">
-                        <h4 className="font-semibold text-foreground">{treatment.title}</h4>
-                        <Badge variant="outline">{treatment.statusLabel}</Badge>
-                      </div>
-                      <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                        {treatment.proposition}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </Disclosure>
-            </div>
-          ) : null}
-        </div>
-      </Card>
+      <TreatmentComparison treatments={treatments} />
 
       <Card className="mt-5 rounded-2xl bg-card/70">
         <header className="flex flex-col gap-3 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between lg:p-6">
@@ -357,13 +303,19 @@ function VisualStatesSection({ scoreRoom }: ScoreRoomProps) {
       />
 
       <ol className="grid gap-4 lg:grid-cols-3">
-        {scoreRoom.visualStates.map((state, index) => (
+        {scoreRoom.visualStates.map((state) => (
           <li key={state.id}>
             <Card className="h-full overflow-hidden rounded-2xl bg-card/70">
-              <div className={`relative h-40 overflow-hidden bg-gradient-to-br ${visualStateArt[index]}`} aria-hidden="true">
-                <div className="absolute inset-x-[22%] top-[18%] bottom-[10%] rotate-3 rounded-[40%_55%_45%_50%] border border-white/10 bg-white/[0.035] shadow-2xl" />
-                <div className="absolute top-1/2 left-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/25 bg-primary/[0.08] blur-[1px]" />
-                <span className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.1em] text-white/50">
+              <div className="relative h-40 overflow-hidden bg-black">
+                <Image
+                  alt={state.imageAlt}
+                  className="object-cover"
+                  fill
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  src={state.imageSrc}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
+                <span className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.1em] text-white/80">
                   STATE {state.number}
                 </span>
               </div>
@@ -374,6 +326,9 @@ function VisualStatesSection({ scoreRoom }: ScoreRoomProps) {
                 </div>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
                   {state.worldState}
+                </p>
+                <p className="mt-3 font-mono text-[9px] tracking-[0.06em] text-muted-foreground uppercase">
+                  {state.referenceSource} · SHA {state.referenceSha256.slice(0, 12)}
                 </p>
                 <details className="group mt-4 border-t border-border pt-3">
                   <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-sm font-medium text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/45 [&::-webkit-details-marker]:hidden">
