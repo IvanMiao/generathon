@@ -347,6 +347,16 @@ fixture, and focused invalid fixtures are implemented. See
 
 **Target: T+4:30 to T+7:00**
 
+**Implementation status (2026-08-01): in progress.** The preloaded SQLite-backed
+Score Room now plays the selected score, presents the complete listening →
+direction → score → shots path, and demonstrates a recorded failed take through
+Editorial Repair, comparison, lock, generation guard, and provenance without a
+model call. Visual Score relationship revisions, linked ShotSpec inspection,
+optimistic concurrency, and persisted repair/lock decisions are implemented.
+Full-track local MusicAnalysis and deterministic locked-take assembly are now
+implemented. The export restores the original audio, validates duration and
+streams, and writes a provenance manifest. See `docs/STEP_3_VERTICAL_SLICE.md`.
+
 Build the differentiating workflow before integrating real models:
 
 1. Open the preloaded project and play its track.
