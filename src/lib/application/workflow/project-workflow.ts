@@ -20,10 +20,22 @@ export type DemoReviewWorkflowState = "diagnosed" | "repaired" | "locked";
 export type WorkflowErrorCode =
   | "project_not_found"
   | "project_revision_conflict"
+  | "analysis_revision_not_found"
+  | "analysis_section_not_found"
+  | "analysis_boundary_invalid"
+  | "analysis_revision_invalid"
+  | "treatment_not_found"
+  | "treatment_reselection_invalid"
+  | "treatment_reselection_locked"
+  | "treatment_reselection_confirmation_required"
   | "visual_score_segment_not_found"
   | "visual_score_locked"
   | "visual_score_revision_invalid"
   | "visual_score_approval_invalid"
+  | "take_not_found"
+  | "take_review_invalid"
+  | "take_lock_invalid"
+  | "take_lock_confirmation_required"
   | "workflow_prerequisite_missing";
 
 export class ProjectWorkflowError extends Error {
@@ -51,10 +63,29 @@ export interface ReviseRelationshipInput extends WorkflowMutationBase {
   relationshipMode: RelationshipMode;
 }
 
+export interface ReviseAnalysisBoundaryInput extends WorkflowMutationBase {
+  revisionId: string;
+  sectionId: string;
+  boundarySeconds: number;
+}
+
+export interface ReselectTreatmentInput extends WorkflowMutationBase {
+  treatmentId: string;
+  confirmed: boolean;
+}
+
 export type ApproveVisualScoreInput = WorkflowMutationBase;
 
 export interface RecordReviewActionInput extends WorkflowMutationBase {
   action: "apply_repair" | "lock_take" | "reset";
+}
+
+export interface ReviewCandidateTakeInput extends WorkflowMutationBase {
+  takeId: string;
+}
+
+export interface LockCandidateTakeInput extends ReviewCandidateTakeInput {
+  confirmed: boolean;
 }
 
 function readWorkflowState(bundle: ProjectBundle): DemoReviewWorkflowState {
@@ -186,6 +217,186 @@ export class ProjectWorkflowService {
       input.expectedProjectRevision,
     );
     return this.relationshipResult(saved, input.segmentId, true);
+  }
+
+  reviseAnalysisBoundary(input: ReviseAnalysisBoundaryInput) {
+    const current = this.requireCurrentBundle(input);
+    const revisionIndex = current.music_analysis_revisions.findIndex(
+      (revision) => revision.id === input.revisionId,
+    );
+    if (revisionIndex < 0) {
+      throw new ProjectWorkflowError(
+        "analysis_revision_not_found",
+        `Music Analysis revision '${input.revisionId}' does not exist in this project.`,
+        404,
+      );
+    }
+
+    const currentRevision = current.music_analysis_revisions[revisionIndex];
+    const sectionIndex = currentRevision.sections.findIndex(
+      (section) => section.id === input.sectionId,
+    );
+    if (sectionIndex < 0 || sectionIndex === currentRevision.sections.length - 1) {
+      throw new ProjectWorkflowError(
+        "analysis_section_not_found",
+        "Choose a section with a following section to revise their shared boundary.",
+        404,
+      );
+    }
+
+    const leftSection = currentRevision.sections[sectionIndex];
+    const rightSection = currentRevision.sections[sectionIndex + 1];
+    const boundarySeconds = input.boundarySeconds;
+    if (
+      !Number.isFinite(boundarySeconds) ||
+      boundarySeconds <= leftSection.range.start_seconds + 0.001 ||
+      boundarySeconds >= rightSection.range.end_seconds - 0.001
+    ) {
+      throw new ProjectWorkflowError(
+        "analysis_boundary_invalid",
+        `The shared boundary must stay between ${leftSection.range.start_seconds.toFixed(3)} and ${rightSection.range.end_seconds.toFixed(3)} seconds.`,
+        422,
+      );
+    }
+    if (
+      Math.abs(leftSection.range.end_seconds - boundarySeconds) <= 0.0005 &&
+      Math.abs(rightSection.range.start_seconds - boundarySeconds) <= 0.0005
+    ) {
+      return this.analysisRevisionResult(current, input.revisionId, false);
+    }
+
+    const now = this.now();
+    const next = structuredClone(current);
+    const nextRevision = next.music_analysis_revisions[revisionIndex];
+    nextRevision.revision += 1;
+    nextRevision.updated_at = now;
+    nextRevision.note = `Human boundary correction between ${leftSection.label} and ${rightSection.label} at ${boundarySeconds.toFixed(3)} seconds.`;
+    nextRevision.sections = nextRevision.sections.map((section, index) => {
+      if (index === sectionIndex) {
+        return {
+          ...section,
+          range: { ...section.range, end_seconds: boundarySeconds },
+          source: "user",
+        };
+      }
+      if (index === sectionIndex + 1) {
+        return {
+          ...section,
+          range: { ...section.range, start_seconds: boundarySeconds },
+          source: "user",
+        };
+      }
+      return section;
+    });
+    advanceProjectRevision(next, now);
+
+    const revisionValidation = validateRevision({
+      record_type: "music_analysis_revision",
+      previous: currentRevision,
+      next: nextRevision,
+    });
+    if (!revisionValidation.success) {
+      throw new ProjectWorkflowError(
+        "analysis_revision_invalid",
+        revisionValidation.issues.map((issue) => issue.message).join(" "),
+        422,
+      );
+    }
+
+    const saved = this.repository.replaceProjectBundle(
+      parseProjectBundle(next),
+      input.expectedProjectRevision,
+    );
+    return this.analysisRevisionResult(saved, input.revisionId, true);
+  }
+
+  reselectTreatment(input: ReselectTreatmentInput) {
+    const current = this.requireCurrentBundle(input);
+    const activeTreatment = current.project.active_treatment_id
+      ? current.director_treatments.find(
+          (treatment) => treatment.id === current.project.active_treatment_id,
+        )
+      : undefined;
+    if (!activeTreatment) {
+      throw new ProjectWorkflowError(
+        "workflow_prerequisite_missing",
+        "Select an initial Director Treatment before changing direction.",
+        409,
+      );
+    }
+    const nextTreatment = current.director_treatments.find(
+      (treatment) => treatment.id === input.treatmentId,
+    );
+    if (!nextTreatment) {
+      throw new ProjectWorkflowError(
+        "treatment_not_found",
+        `Director Treatment '${input.treatmentId}' does not exist in this project.`,
+        404,
+      );
+    }
+    if (nextTreatment.id === activeTreatment.id) {
+      return this.treatmentReselectionResult(current, false);
+    }
+    if (!input.confirmed) {
+      throw new ProjectWorkflowError(
+        "treatment_reselection_confirmation_required",
+        "Confirm the new direction before replacing the selected Director Treatment.",
+        422,
+      );
+    }
+    if (
+      nextTreatment.status !== "candidate" ||
+      nextTreatment.music_reading_id !== activeTreatment.music_reading_id
+    ) {
+      throw new ProjectWorkflowError(
+        "treatment_reselection_invalid",
+        "Choose a candidate Treatment generated from the active Music Reading.",
+        422,
+      );
+    }
+
+    const activeFilmBible = current.film_bibles.find(
+      (filmBible) => filmBible.treatment_id === activeTreatment.id,
+    );
+    if (activeFilmBible?.status === "locked") {
+      throw new ProjectWorkflowError(
+        "treatment_reselection_locked",
+        "The active Film Bible is locked. Preserve this cut and start a new direction revision instead.",
+        409,
+      );
+    }
+
+    const now = this.now();
+    const next = structuredClone(current);
+    next.director_treatments = next.director_treatments.map((treatment) => {
+      if (treatment.id === activeTreatment.id) {
+        return {
+          ...treatment,
+          revision: treatment.revision + 1,
+          updated_at: now,
+          status: "candidate",
+        };
+      }
+      if (treatment.id === nextTreatment.id) {
+        return {
+          ...treatment,
+          revision: treatment.revision + 1,
+          updated_at: now,
+          status: "selected",
+        };
+      }
+      return treatment;
+    });
+    next.project.active_treatment_id = nextTreatment.id;
+    next.project.active_assembly_run_id = null;
+    next.project.creative_state = "treatment_selected";
+    advanceProjectRevision(next, now);
+
+    const saved = this.repository.replaceProjectBundle(
+      parseProjectBundle(next),
+      input.expectedProjectRevision,
+    );
+    return this.treatmentReselectionResult(saved, true);
   }
 
   approveVisualScore(input: ApproveVisualScoreInput) {
@@ -364,6 +575,162 @@ export class ProjectWorkflowService {
     return this.reviewResult(saved, true);
   }
 
+  reviewCandidateTake(input: ReviewCandidateTakeInput) {
+    const current = this.requireCurrentBundle(input);
+    const currentTake = this.requireImportedManualTake(current, input.takeId);
+    if (currentTake.locked || currentTake.status === "needs_decision") {
+      return this.candidateTakeResult(current, input.takeId, false);
+    }
+    if (currentTake.status !== "candidate") {
+      throw new ProjectWorkflowError(
+        "take_review_invalid",
+        "Only an unlocked candidate Take can enter mechanical review.",
+        409,
+      );
+    }
+
+    const shot = current.shot_specs.find(
+      (candidate) => candidate.id === currentTake.shot_spec_id,
+    );
+    const artifact = current.artifacts.find(
+      (candidate) => candidate.id === currentTake.artifact_id,
+    );
+    if (!shot || !artifact || artifact.kind !== "video" || artifact.mime_type !== "video/mp4") {
+      throw new ProjectWorkflowError(
+        "take_review_invalid",
+        "The candidate Take must reference an imported MP4 video artifact.",
+        422,
+      );
+    }
+
+    const now = this.now();
+    const next = structuredClone(current);
+    const takeIndex = next.takes.findIndex((take) => take.id === input.takeId);
+    const nextTake = next.takes[takeIndex];
+    nextTake.status = "needs_decision";
+    nextTake.revision += 1;
+    nextTake.updated_at = now;
+    const reportId = `review-${nextTake.id}-mechanical-v${nextTake.revision}`;
+    next.review_reports.push({
+      schema_version: "1.0.0",
+      id: reportId,
+      project_id: next.project.id,
+      revision: 1,
+      created_at: now,
+      updated_at: now,
+      take_id: nextTake.id,
+      status: "complete",
+      failure_classes: ["accept"],
+      evidence: [
+        {
+          id: `evidence-${nextTake.id}-mechanical-v${nextTake.revision}`,
+          dimension: "mechanical",
+          range: shot.range,
+          finding:
+            "Imported MP4 passed the recorded H.264 media admission check; artistic acceptance remains an explicit human decision.",
+          source: "local_measurement",
+          confidence: 1,
+        },
+      ],
+      summary:
+        "Mechanical admission passed. Preview the imported candidate, then explicitly accept and lock it only if it serves the intended cut.",
+    });
+    advanceProjectRevision(next, now);
+
+    const revisionValidation = validateRevision({
+      record_type: "take",
+      previous: currentTake,
+      next: nextTake,
+    });
+    if (!revisionValidation.success) {
+      throw new ProjectWorkflowError(
+        "take_review_invalid",
+        revisionValidation.issues.map((issue) => issue.message).join(" "),
+        422,
+      );
+    }
+
+    const saved = this.repository.replaceProjectBundle(
+      parseProjectBundle(next),
+      input.expectedProjectRevision,
+    );
+    return this.candidateTakeResult(saved, input.takeId, true);
+  }
+
+  lockCandidateTake(input: LockCandidateTakeInput) {
+    const current = this.requireCurrentBundle(input);
+    const currentTake = this.requireImportedManualTake(current, input.takeId);
+    if (currentTake.locked) {
+      return this.candidateTakeResult(current, input.takeId, false);
+    }
+    if (!input.confirmed) {
+      throw new ProjectWorkflowError(
+        "take_lock_confirmation_required",
+        "Confirm that this reviewed Take should become a locked final-cut candidate.",
+        422,
+      );
+    }
+    const acceptingReview = current.review_reports
+      .toReversed()
+      .find(
+        (review) =>
+          review.take_id === currentTake.id &&
+          review.status === "complete" &&
+          review.failure_classes.length === 1 &&
+          review.failure_classes[0] === "accept",
+      );
+    if (currentTake.status !== "needs_decision" || !acceptingReview) {
+      throw new ProjectWorkflowError(
+        "take_lock_invalid",
+        "Complete an accepting mechanical review before locking this candidate Take.",
+        409,
+      );
+    }
+
+    const now = this.now();
+    const next = structuredClone(current);
+    const takeIndex = next.takes.findIndex((take) => take.id === input.takeId);
+    const nextTake = next.takes[takeIndex];
+    nextTake.status = "locked";
+    nextTake.locked = true;
+    nextTake.revision += 1;
+    nextTake.updated_at = now;
+    next.decisions.push(
+      decisionRecord(
+        next,
+        {
+          id: `decision-${nextTake.id}-accept-v${nextTake.revision}`,
+          target_type: "take",
+          target_id: nextTake.id,
+          decision: "accept",
+          reason:
+            "The mechanical report is complete and a human explicitly accepted this imported Take for the locked candidate pool.",
+        },
+        now,
+      ),
+    );
+    advanceProjectRevision(next, now);
+
+    const revisionValidation = validateRevision({
+      record_type: "take",
+      previous: currentTake,
+      next: nextTake,
+    });
+    if (!revisionValidation.success) {
+      throw new ProjectWorkflowError(
+        "take_lock_invalid",
+        revisionValidation.issues.map((issue) => issue.message).join(" "),
+        422,
+      );
+    }
+
+    const saved = this.repository.replaceProjectBundle(
+      parseProjectBundle(next),
+      input.expectedProjectRevision,
+    );
+    return this.candidateTakeResult(saved, input.takeId, true);
+  }
+
   private requireCurrentBundle(input: WorkflowMutationBase) {
     const bundle = this.repository.getProjectBundle(input.projectId);
     if (!bundle) {
@@ -381,6 +748,25 @@ export class ProjectWorkflowService {
       );
     }
     return bundle;
+  }
+
+  private requireImportedManualTake(bundle: ProjectBundle, takeId: string) {
+    const take = bundle.takes.find((candidate) => candidate.id === takeId);
+    if (!take) {
+      throw new ProjectWorkflowError(
+        "take_not_found",
+        `Take '${takeId}' does not exist in this project.`,
+        404,
+      );
+    }
+    if (take.source !== "manual") {
+      throw new ProjectWorkflowError(
+        "take_review_invalid",
+        "This workflow only reviews manually imported candidate Takes.",
+        422,
+      );
+    }
+    return take;
   }
 
   private relationshipResult(
@@ -428,6 +814,77 @@ export class ProjectWorkflowService {
     };
   }
 
+  private analysisRevisionResult(
+    bundle: ProjectBundle,
+    revisionId: string,
+    changed: boolean,
+  ) {
+    const analysisRevision = bundle.music_analysis_revisions.find(
+      (candidate) => candidate.id === revisionId,
+    );
+    if (!analysisRevision) {
+      throw new ProjectWorkflowError(
+        "analysis_revision_not_found",
+        `Music Analysis revision '${revisionId}' does not exist in this project.`,
+        404,
+      );
+    }
+    const impact = planRevisionImpact(bundle, "audio_range");
+
+    return {
+      changed,
+      projectRevision: bundle.project.revision,
+      analysisRevision: {
+        id: analysisRevision.id,
+        revision: analysisRevision.revision,
+        note: analysisRevision.note,
+        sections: analysisRevision.sections.map((section) => ({
+          id: section.id,
+          label: section.label,
+          startSeconds: section.range.start_seconds,
+          endSeconds: section.range.end_seconds,
+          source: section.source,
+        })),
+      },
+      invalidatedRecordIds: impact.invalidated_record_ids.filter(
+        (recordId) => recordId !== analysisRevision.id,
+      ),
+      protectedRecordIds: impact.protected_record_ids,
+    };
+  }
+
+  private treatmentReselectionResult(bundle: ProjectBundle, changed: boolean) {
+    const activeTreatment = bundle.project.active_treatment_id
+      ? bundle.director_treatments.find(
+          (treatment) => treatment.id === bundle.project.active_treatment_id,
+        )
+      : undefined;
+    if (!activeTreatment) {
+      throw new ProjectWorkflowError(
+        "workflow_prerequisite_missing",
+        "The project no longer has an active Director Treatment.",
+        422,
+      );
+    }
+    const hasActiveFilmBible = bundle.film_bibles.some(
+      (filmBible) => filmBible.treatment_id === activeTreatment.id,
+    );
+    const impact = planRevisionImpact(bundle, "music_reading");
+
+    return {
+      changed,
+      projectRevision: bundle.project.revision,
+      creativeState: bundle.project.creative_state,
+      activeTreatment: {
+        id: activeTreatment.id,
+        title: activeTreatment.title,
+      },
+      directionBuildRequired: !hasActiveFilmBible,
+      invalidatedRecordIds: impact.invalidated_record_ids,
+      protectedRecordIds: impact.protected_record_ids,
+    };
+  }
+
   private approvalResult(
     bundle: ProjectBundle,
     contractId: string,
@@ -471,6 +928,54 @@ export class ProjectWorkflowService {
       projectRevision: bundle.project.revision,
       workflowState,
       recordedDecisionIds,
+    };
+  }
+
+  private candidateTakeResult(
+    bundle: ProjectBundle,
+    takeId: string,
+    changed: boolean,
+  ) {
+    const take = this.requireImportedManualTake(bundle, takeId);
+    const review = bundle.review_reports
+      .toReversed()
+      .find((candidate) => candidate.take_id === take.id);
+    const decision = bundle.decisions
+      .toReversed()
+      .find(
+        (candidate) =>
+          candidate.target_type === "take" &&
+          candidate.target_id === take.id &&
+          candidate.decision === "accept",
+      );
+
+    return {
+      changed,
+      projectRevision: bundle.project.revision,
+      take: {
+        id: take.id,
+        status: take.status,
+        locked: take.locked,
+        revision: take.revision,
+      },
+      review: review
+        ? {
+            id: review.id,
+            status: review.status,
+            accepted:
+              review.failure_classes.length === 1 &&
+              review.failure_classes[0] === "accept",
+            evidenceCount: review.evidence.length,
+            summary: review.summary,
+          }
+        : null,
+      decision: decision
+        ? {
+            id: decision.id,
+            decision: decision.decision,
+            targetId: decision.target_id,
+          }
+        : null,
     };
   }
 }

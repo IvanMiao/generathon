@@ -347,7 +347,7 @@ fixture, and focused invalid fixtures are implemented. See
 
 **Target: T+4:30 to T+7:00**
 
-**Implementation status (2026-08-01): in progress.** The preloaded SQLite-backed
+**Implementation status (2026-08-02): complete.** The preloaded SQLite-backed
 Score Room now plays the selected score, presents the complete listening →
 direction → score → shots path, and demonstrates a recorded failed take through
 Editorial Repair, comparison, lock, generation guard, and provenance without a
@@ -357,8 +357,8 @@ Full-track local MusicAnalysis and deterministic locked-take assembly are now
 implemented. The export restores the original audio, validates duration and
 streams, and writes a provenance manifest. Real provider-derived Visual State
 keyframes, downstream Treatment comparison, and deliberate Visual Score
-approval are implemented. Persisted section-boundary editing and safe
-reselection of a Treatment before direction lock remain. See
+approval, persisted shared section-boundary editing, and confirmation-backed
+Treatment reselection before direction lock are implemented. See
 `docs/STEP_3_VERTICAL_SLICE.md`.
 
 Build the differentiating workflow before integrating real models:
@@ -402,6 +402,17 @@ Mandatory outputs by T+13:00:
 9. mechanical media report;
 10. review/repair fixture path;
 11. locked-take assembly against original audio.
+
+**Current implementation note (2026-08-02)**
+
+The MP4 manual-import and mechanical-media-report portions of outputs 8 and 9
+are complete: the Shot workspace submits an external MP4 against a locked
+`ShotSpec`; the server verifies a timed H.264 stream with `ffprobe`, stores the
+bytes below `uploads/<project>/`, records its SHA-256 provenance, and appends a
+candidate `Take` with optimistic project-revision protection. It does not modify
+the locked `ShotSpec`. Candidate Take media preview, mechanical ReviewReport,
+and explicit human acceptance/locking are also complete. Assembly selection
+remains a separate Step 4 boundary.
 
 ### Step 5 — Integration Gate 1
 

@@ -14,6 +14,7 @@ import {
   Waves,
 } from "lucide-react";
 import { AssemblyExport } from "@/components/score-room/assembly-export";
+import { AnalysisRevisionWorkbench } from "@/components/score-room/analysis-revision-workbench";
 import { MusicAnalysisVisualizer } from "@/components/score-room/music-analysis-visualizer";
 import { ReviewRepairDemo } from "@/components/score-room/review-repair-demo";
 import type { ScoreRoomProjection } from "@/components/score-room/score-room-data";
@@ -111,7 +112,7 @@ function Disclosure({
 }
 
 function ListeningSection({ scoreRoom }: ScoreRoomProps) {
-  const { measuredMusic, interpretedMusic } = scoreRoom;
+  const { analysisRevision, measuredMusic, interpretedMusic } = scoreRoom;
 
   return (
     <section aria-labelledby="listening-title">
@@ -125,6 +126,8 @@ function ListeningSection({ scoreRoom }: ScoreRoomProps) {
       />
 
       <MusicAnalysisVisualizer analysis={measuredMusic} />
+
+      <AnalysisRevisionWorkbench analysisRevision={analysisRevision} />
 
       <Card className="mt-5 rounded-2xl bg-card/70">
         <header className="flex flex-col gap-3 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between lg:p-6">
@@ -202,7 +205,12 @@ function ListeningSection({ scoreRoom }: ScoreRoomProps) {
 }
 
 function TreatmentsSection({ scoreRoom }: ScoreRoomProps) {
-  const { treatments, filmBible, audiovisualContract } = scoreRoom;
+  const {
+    treatments,
+    directionSelection,
+    filmBible,
+    audiovisualContract,
+  } = scoreRoom;
 
   return (
     <section aria-labelledby="treatments-title">
@@ -215,7 +223,10 @@ function TreatmentsSection({ scoreRoom }: ScoreRoomProps) {
         status={`${filmBible.statusLabel} Film Bible`}
       />
 
-      <TreatmentComparison treatments={treatments} />
+      <TreatmentComparison
+        treatments={treatments}
+        directionSelection={directionSelection}
+      />
 
       <Card className="mt-5 rounded-2xl bg-card/70">
         <header className="flex flex-col gap-3 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between lg:p-6">

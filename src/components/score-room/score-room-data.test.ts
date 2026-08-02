@@ -29,6 +29,15 @@ describe("Score Room fixture projection", () => {
     expect(view.interpretedMusic.sections).toHaveLength(6);
     expect(view.measuredMusic.sourceDescription).toMatch(/deterministic/i);
     expect(view.interpretedMusic.sourceDescription).toMatch(/interpretation/i);
+    expect(view.analysisRevision).toMatchObject({
+      id: "analysis-revision-demo-v1",
+      revision: 1,
+    });
+    expect(view.analysisRevision.sections).toHaveLength(6);
+    expect(view.analysisRevision.sections[1]).toMatchObject({
+      id: "section-02",
+      endSeconds: 26.099229,
+    });
   });
 
   it("projects three treatments and the locked selected direction", () => {
@@ -42,6 +51,10 @@ describe("Score Room fixture projection", () => {
     expect(selectedTreatments[0]?.id).toBe(view.selectedTreatment.id);
     expect(view.filmBible.isLocked).toBe(true);
     expect(view.filmBible.status).toBe("locked");
+    expect(view.directionSelection).toMatchObject({
+      canReselect: false,
+      activeFilmBibleStatus: "locked",
+    });
   });
 
   it("projects the complete six-part score with all relationship modes", () => {
@@ -77,6 +90,28 @@ describe("Score Room fixture projection", () => {
       expect(shot.startState.name.length).toBeGreaterThan(0);
       expect(shot.endState.name.length).toBeGreaterThan(0);
     }
+    expect(view.shots.find((shot) => shot.id === "shot-05")?.manualTakeCount).toBe(1);
+    expect(view.shots.find((shot) => shot.id === "shot-02")?.manualTakeCount).toBe(0);
+  });
+
+  it("exposes reviewable imported manual Takes without serializing their storage paths", () => {
+    const candidateBundle = structuredClone(bundle);
+    const take = candidateBundle.takes.find(
+      (candidate) => candidate.id === "take-shot-05-mutation",
+    );
+    if (!take) throw new Error("Fixture manual Take is missing.");
+    take.status = "candidate";
+    take.locked = false;
+
+    const view = createScoreRoomProjection(candidateBundle);
+    expect(view.shots.find((shot) => shot.id === "shot-05")?.manualTakes).toEqual([
+      expect.objectContaining({
+        id: "take-shot-05-mutation",
+        status: "candidate",
+        mediaSrc:
+          "/api/projects/project-impossible-city/takes/take-shot-05-mutation/media",
+      }),
+    ]);
   });
 
   it("projects the repair decision and the guarded generation context", () => {

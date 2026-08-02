@@ -71,6 +71,12 @@ environment or cache is intentionally placed under `/tmp`.
 - `GET /api/contracts/project-bundle` — frozen ProjectBundle v1 JSON Schema
 - `GET /api/demo/media/:asset` — allowlisted local score/take streaming with byte ranges
 - `GET|POST /api/projects/:projectId/assembly` — inspect or rebuild the deterministic local export
+- `PATCH /api/projects/:projectId/music-analysis-revisions/:revisionId/boundaries/:sectionId` — persist a validated shared section-boundary correction
+- `POST /api/projects/:projectId/treatments/:treatmentId/selection` — explicitly select an alternative before the active Film Bible is locked
+- `POST /api/projects/:projectId/shots/:shotId/manual-takes` — import an external MP4 as a checksummed candidate Take after an H.264 media probe
+- `GET /api/projects/:projectId/takes/:takeId/media` — byte-range preview for a recorded manually imported video
+- `POST /api/projects/:projectId/takes/:takeId/review` — record a candidate Take's mechanical admission review
+- `POST /api/projects/:projectId/takes/:takeId/lock` — explicitly accept and lock a reviewed candidate Take
 - `PATCH /api/projects/:projectId/visual-score/:segmentId/relationship` — validated score revision
 - `POST /api/projects/:projectId/visual-score/approval` — approve a valid full-range score and reopen generation
 - `POST /api/projects/:projectId/review/decision` — persisted repair/lock walkthrough decision
@@ -92,4 +98,6 @@ See [PRD.md](./PRD.md), [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md),
 [docs/STEP_1_FOUNDATION.md](./docs/STEP_1_FOUNDATION.md). Step 2 contracts and
 fixture rules are recorded in [docs/STEP_2_CONTRACTS.md](./docs/STEP_2_CONTRACTS.md).
 The current offline workflow and its remaining integration work are recorded in
-[docs/STEP_3_VERTICAL_SLICE.md](./docs/STEP_3_VERTICAL_SLICE.md).
+[docs/STEP_3_VERTICAL_SLICE.md](./docs/STEP_3_VERTICAL_SLICE.md). The first
+Step 4 provider-neutral import path is described in
+[docs/STEP_4_MANUAL_TAKE_IMPORT.md](./docs/STEP_4_MANUAL_TAKE_IMPORT.md).

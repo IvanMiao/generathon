@@ -1,6 +1,6 @@
 # Step 3 — Web vertical slice
 
-Status: in progress as of 2026-08-01.
+Status: complete as of 2026-08-02.
 
 The four post-contract workstreams now meet in one fixture-first Web workflow at
 `/projects/demo`. The route is server-rendered from a canonical project persisted
@@ -13,8 +13,12 @@ through `ProjectRepository`; it does not call a model or fetch the app's own API
   allowlisted, byte-range-capable local media route;
 - real deterministic full-track Music Analysis with the complete 120.024-second
   score selected, plus a separate editable Music Reading for the same range;
-- three structurally distinct Treatments, a downstream-direction comparison
-  preview, and the locked active Film Bible;
+- a constrained shared-boundary editor that persists a sequential
+  `MusicAnalysisRevision` without rewriting the raw MusicAnalysis, reports
+  unlocked follow-up records, and keeps locked dependents protected;
+- three structurally distinct Treatments, a downstream-direction comparison,
+  and confirmation-backed reselection before direction lock; the locked active
+  Film Bible remains protected;
 - three approved real provider-derived keyframes, six full-coverage Visual Score segments, and six locked
   ShotSpecs with musical, narrative, and visual functions;
 - an editable relationship mode for every Visual Score segment; saving creates
@@ -52,12 +56,10 @@ assembly uses verified existing takes and writes ignored outputs under `exports/
 
 ## Remaining Step 3 work
 
-1. Make at least one measured section-boundary correction editable and persist
-   it as a `MusicAnalysisRevision` without mutating the measured analysis.
-2. Add a deliberate treatment-reselection workflow for an unlocked direction;
-   the current rough cut only previews alternatives so locked downstream work is
-   not silently replaced.
+None. The Score Room now keeps raw measurement, MusicAnalysisRevision,
+Treatment selection, locked direction, review, and deterministic assembly as
+separate persisted layers.
 
-The next vertical slice is section-boundary editing plus safe treatment
-reselection. Real model integration remains behind the now-persisted offline
-direction, review, and deterministic export paths.
+The next vertical slice is the real-project integration gate. Real model
+integration remains behind the now-persisted offline direction, review, and
+deterministic export paths.

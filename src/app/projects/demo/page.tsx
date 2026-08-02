@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DirectionBuildPending } from "@/components/score-room/direction-build-pending";
 import { ScoreRoom } from "@/components/score-room/score-room";
 import { createScoreRoomProjection } from "@/components/score-room/score-room-data";
 import type { WorkspaceView } from "@/components/score-room/workspace-navigation";
@@ -44,6 +45,25 @@ export default async function DemoScoreRoomPage({
     DEMO_PROJECT_ID,
     runtime.rootDir,
   );
+  const activeTreatment = bundle.project.active_treatment_id
+    ? bundle.director_treatments.find(
+        (treatment) => treatment.id === bundle.project.active_treatment_id,
+      )
+    : undefined;
+  const activeFilmBible = activeTreatment
+    ? bundle.film_bibles.find(
+        (filmBible) => filmBible.treatment_id === activeTreatment.id,
+      )
+    : undefined;
+  if (activeTreatment && !activeFilmBible) {
+    return (
+      <DirectionBuildPending
+        projectRevision={bundle.project.revision}
+        projectTitle={bundle.project.title}
+        treatmentTitle={activeTreatment.title}
+      />
+    );
+  }
   const scoreRoom = createScoreRoomProjection(
     bundle,
     readDemoMusicAnalysis(runtime.rootDir) ?? undefined,

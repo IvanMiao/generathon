@@ -216,6 +216,68 @@ export function createScoreRoomProjection(
     intensity: count / maximumOnsetDensity,
   }));
 
+  const manualTakeCountByShotId = new Map<string, number>();
+  const reviewableManualTakesByShotId = new Map<
+    string,
+    Array<{
+      id: string;
+      status: "candidate" | "needs_decision" | "locked";
+      statusLabel: string;
+      locked: boolean;
+      revision: number;
+      mediaSrc: string;
+      sha256: string;
+      review: {
+        id: string;
+        status: string;
+        accepted: boolean;
+        summary: string;
+      } | null;
+    }>
+  >();
+  for (const take of bundle.takes) {
+    if (take.source !== "manual") continue;
+    manualTakeCountByShotId.set(
+      take.shot_spec_id,
+      (manualTakeCountByShotId.get(take.shot_spec_id) ?? 0) + 1,
+    );
+    if (
+      take.status !== "candidate" &&
+      take.status !== "needs_decision" &&
+      take.status !== "locked"
+    ) {
+      continue;
+    }
+    const artifact = artifactById.get(take.artifact_id);
+    if (!artifact || artifact.kind !== "video" || artifact.mime_type !== "video/mp4") {
+      continue;
+    }
+    const review = bundle.review_reports
+      .toReversed()
+      .find((report) => report.take_id === take.id);
+    const takes = reviewableManualTakesByShotId.get(take.shot_spec_id) ?? [];
+    takes.push({
+      id: take.id,
+      status: take.status,
+      statusLabel: formatDomainLabel(take.status),
+      locked: take.locked,
+      revision: take.revision,
+      mediaSrc: `/api/projects/${encodeURIComponent(project.id)}/takes/${encodeURIComponent(take.id)}/media`,
+      sha256: artifact.sha256,
+      review: review
+        ? {
+            id: review.id,
+            status: formatDomainLabel(review.status),
+            accepted:
+              review.failure_classes.length === 1 &&
+              review.failure_classes[0] === "accept",
+            summary: review.summary,
+          }
+        : null,
+    });
+    reviewableManualTakesByShotId.set(take.shot_spec_id, takes);
+  }
+
   const shots = bundle.shot_specs
     .toSorted((left, right) => left.range.start_seconds - right.range.start_seconds)
     .map((shot, index) => {
@@ -247,6 +309,8 @@ export function createScoreRoomProjection(
           ? formatDomainLabel(shot.provider_strategy.preferred_provider)
           : "Manual / deterministic",
         acceptanceCriteria: shot.acceptance_criteria,
+        manualTakeCount: manualTakeCountByShotId.get(shot.id) ?? 0,
+        manualTakes: reviewableManualTakesByShotId.get(shot.id) ?? [],
       };
     });
 
@@ -440,6 +504,21 @@ export function createScoreRoomProjection(
           strengthPercent: Math.round(event.strength * 100),
         })),
     },
+    analysisRevision: {
+      id: analysisRevision.id,
+      revision: analysisRevision.revision,
+      note: analysisRevision.note,
+      selectedRangeLabel: formatTimeRange(analysisRevision.selected_range),
+      sections: analysisRevision.sections.map((section) => ({
+        id: section.id,
+        label: section.label,
+        startSeconds: section.range.start_seconds,
+        endSeconds: section.range.end_seconds,
+        rangeLabel: formatTimeRange(section.range),
+        source: section.source,
+        sourceLabel: formatDomainLabel(section.source),
+      })),
+    },
     interpretedMusic: {
       kind: "interpreted" as const,
       readingId: reading.id,
@@ -489,6 +568,14 @@ export function createScoreRoomProjection(
     selectedTreatment: {
       id: selectedTreatment.id,
       title: selectedTreatment.title,
+    },
+    directionSelection: {
+      activeFilmBibleStatus: filmBible.status,
+      canReselect: filmBible.status !== "locked",
+      lockedMessage:
+        filmBible.status === "locked"
+          ? "The active Film Bible is locked, so this completed cut remains a protected preview only."
+          : "Selecting an alternative clears the active assembly and requires a new Film Bible before production continues.",
     },
     filmBible: {
       id: filmBible.id,
